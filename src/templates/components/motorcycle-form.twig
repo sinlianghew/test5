@@ -1,0 +1,2163 @@
+<!--#set($CmsSettingUtil = $webutil.getBean("cmsSettingUtil"))
+#set($partner = $CmsSettingUtil.findCMSSetting($partnerCode))
+#set($partnerContent = $dotcontent.find($partner.getPartnerIdentifier()))
+#set($partnerConIdentifier = $partnerContent.identifier)
+#set($products = $dotcontent.pullRelated("WlpPartnerStructure.wlpproductstructures","${partnerConIdentifier}",false,0,"WlpProductStructure.sequence asc"))
+#foreach($content in $products)
+    #set $productDisclosurePDFUri = $content.productDisclosureSheet.uri
+    #set $productDisclosurePDFHTML = $content.productDisclosureSheetHTML
+#end-->
+
+
+<div id="motorcycle-form" class="form-wizard">
+    <!-- The base URL for all the API calls -->
+    <input type="hidden" name="tieBaseUrl" value="">
+
+    <!-- Depending on the stage of the subscription journey, the form will behave differently. -->
+    <input type="hidden" name="stage" value="{{ stage }}">
+
+    <!-- Default Values -->
+    <!--<input type="hidden" name="productDisclosurePDFUri" value="${productDisclosurePDFUri}" />-->
+    <input type="hidden" name="productDisclosurePDFUri" value="/marsh/resource/MSIGMotorcycleInsurancePDS(with Commission).pdf" />
+    <!--<input type="hidden" name="isFPXPaymentGateway" value="${isFPXPaymentGateway}" />
+    <input type="hidden" name="isBoostPaymentGateway" value="${isBoostPaymentGateway}" />-->
+    <input type="hidden" name="isFpxPaymentGateway" value="true" />
+    <input type="hidden" name="isBoostPaymentGateway" value="false" />
+    <input type="hidden" name="formula" value="motor">
+    <!-- <input type="hidden" name="partnerCode" value="msigonline"> -->
+    <input type="hidden" name="partnerCode" value="msigonline">
+    <input type="hidden" name="prefixMobile" value="${prefixMobile}" />
+    <input type="hidden" name="isInIframe" value="${isInIframe}">
+    <!-- <input type="hidden" name="productCode" value="MCY"> -->
+    <input type="hidden" name="productCode" value="MOG">
+    <input type="hidden" name="productName" value="MINI PA">
+    <input type="hidden" name="productGroup" value="${product.getProductGroup()}" />
+    <input type="hidden" name="certificateNo" value="$!esc.html($!request.getParameter('certificateNo'))"> 
+    <input type="hidden" name="staffId" value="">
+    <input type="hidden" name="staffRelationship" value="">
+    <input type="hidden" name="branchCode" value="">
+    <input type="hidden" name="supportTel" value="1-800-88-6744">
+    <input type="hidden" name="thankYouPageUrl" value="/payment-completed.html">
+    <input type="hidden" name="registrationUrl" value="/motorcycle-registration.html">
+    <input type="hidden" name="summaryUrl" value="/motorcycle-summary.html">
+    <input type="hidden" name="paymentUrl" value="/motorcycle-payment.html">
+    <input type="hidden" name="productMinAge" value="$product.getMinAge()" />
+    <input type="hidden" name="productMinAgeUnit" value="year" />
+    <input type="hidden" name="productMaxAge" value="$product.getMaxAge()" />
+    <input type="hidden" name="productMaxAgeUnit" value="year" />
+    <input type="hidden" name="maxCoverDuration" value="$product.getMaxCoverDuration()" />
+    <input type="hidden" name="maxCoverDurationUnit" value="$product.getMaxCoverDurationUnit()" />
+    {# <input type="hidden" name="coveragePlan" #if($!{request.getParameter('coveragePlan')}) value="$!esc.html($!{request.getParameter('coveragePlan')})" #else value="Basic" #end/> #}
+    <input type="hidden" name="coveragePremiumRate" value="$product.getNormalRate()" />
+    <input type="hidden" name="coveragePremiumUpgradeRate" value="$product.getUpgradeRate()" />
+    {# #if ($product.getIsSeasonal().equals("Y"))
+        <input type="hidden" name="coveragePremiumType" value="promotion" />
+    #else
+        <input type="hidden" name="coveragePremiumType" value="default" />
+    #end #}
+    <!--<input type="hidden" name="commissionRate" value="$product.commissionRate" />-->
+    <!--<input type="hidden" name="partnerName" value="$partner.partnerName" />-->
+    <input type="hidden" name="commissionRate" value="10" />
+    <input type="hidden" name="partnerName" value="msigonline" />
+    
+    <div id="tnc-modal" class="modal fade variant-tnc">
+        <div class="modal-dialog partial-screen-modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-w">
+                    <button class="modal-header-btn button-icon btn-close" data-dismiss="modal">
+                        <svg class="icon icon-s">
+                            <use xlink:href="/spa-assets/icons/icons.svg#sprite-close-popup"
+                                href="/spa-assets/icons/icons.svg#sprite-close-popup"></use>
+                        </svg>
+                    </button>
+                </div>
+                <div class="py-5 px-4 content-container">
+                    <p><strong>Terms and Conditions</strong></p>
+                    <p><br>You hereby acknowledge that you have read the Terms of Use, Product Disclosure Sheet and understood the policy terms and conditions stated in the master policy and wish to proceed with the purchase of this policy.</p>
+                    <p>You must take reasonable care not to misrepresent when answering questions herein or in any request made by MSIG and check the information you have provided is complete and accurate. You should also disclose all relevant information which may influence MSIG in the acceptance of this insurance, decide the terms and the premium you will pay. If you do not take reasonable care and the information provided by you is incomplete or inaccurate, this may affect your claim. Your responsibility to provide complete and accurate information when requested by MSIG shall continue until the time of you entering into, making changes to or renewing your insurance. Unless renewed, the coverage will cease on expiry date and we shall strictly not be liable for any expenses that take place after the expiry date.</p>
+                    <p>With respect to personal information submitted herein, you hereby consent to MSIG to process your personal information for the purpose of processing your application herein. Where applicable, you also confirm that you have obtained the consent from the person(s) named herein and that you are duly authorized to disclose their personal information herein. For more information our Privacy Policy, please read our Terms of Use.&nbsp;Kindly read our Privacy Notice at<a href="https://www.msig.com.my/privacy-notice/" target="_blank" class="donFunction">www.msig.com.my </a>for details.<br><br><strong>Tax Clause&nbsp;</strong><br><br>You are obligated to pay any applicable taxes (which include but not limited to service tax and stamp duty) imposed by the Malaysian tax authorities in relation to this Policy, with effective from 1<sup>st</sup> September 2018.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% verbatim %}
+        <div class="bg-w" v-if="canProceed">
+            <div class="container py-4 py-md-5">
+                <h1>Mini PA Insurance</h1>
+                <!-- Steppers -->
+                <div class="nav variant-steppers">
+                    <div :class="{
+                        'nav-item step': true,
+                        'current': currStep == step,
+                        'completed': step.completed
+                    }" v-for="step in steps" v-bind:key="steps.indexOf(step)">
+                        <div class="step-indicator">
+                            <span>
+                                {{ step.stepNum }}
+                            </span>
+                            <svg class="icon icon-s tick-mark">
+                                <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark" href="/spa-assets/icons/icons.svg#sprite-tick-mark"></use>
+                            </svg>
+                        </div>
+                        <div class="step-title">{{ step.title }}</div>
+                    </div>
+                </div>
+                <!-- Steppers -->
+            </div>
+        </div>
+
+        <div class="bg-p2d pt-5 wizard-sections position-relative" v-if="canProceed">
+            <validation-observer v-slot="observer" ref="form">
+                <form @submit.prevent="observer.handleSubmit(onSubmit)">
+
+                    <fieldset class="wizard-section-1" v-if="currStep && currStep.stepNum === '1'">
+                        <div class="container">
+                            
+                            <div class="bg-w py-5 px-md-5 px-3 mx-md-2">
+                                <h2 class="p2">Get Started</h2>                         
+
+                                <div class="bt2 mt-4" v-if="steps[0].showPrescreen">
+                                    <p>
+                                        Please make sure you meet the following conditions:
+                                    </p>
+                                    <ol class="pl-3">
+                                        <li>You are between 16 and 65 years old at the date of first enrolment.</li>
+                                        <li>You are a Malaysian, Permanent Resident, Work Permit/Employment Pass
+                                                Holder, or otherwise legally employed in Malaysia.
+                                        </li>
+                                        <li>You may select an effective date for your policy up to 6 months from today.</li>
+                                    </ol>
+
+                                    <div class="d-block">
+                                            <div class="mb-2 " style="font-style: italic;"><b>
+                                                For policy renewed:
+                                            </b></div>
+
+                                            <div class="d-flex">
+                                                <p class="m-0">i.</p>
+                                                <p class="m-0 ml-2">You may renew until you are 70 years old.</p>
+                                            </div>
+                                        <p class="m-0">ii. You may renew within 90 days from expiry date.</p>
+                                    </div>
+
+                                </div>
+
+                                <p class="bt2 mb-3" v-if="!steps[0].showPrescreen">Please enter the details of Insured Person</p>
+
+                                <div class="row mt-4 pt-2" v-if="!steps[0].showPrescreen">
+                                
+                                    <div class="col-md-6 col-lg-4 col-12">
+                                        <div class="d-flex mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" 
+                                                    type="radio"
+                                                    name="id_type"
+                                                    value="nric"
+                                                    id="id_type1"
+                                                    v-model="formData['1'].policyHolderIdType">
+                                                <label class="form-check-label" for="id_type1">NRIC No.:</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input"
+                                                    type="radio"
+                                                    name="id_type"
+                                                    value="passport"
+                                                    id="id_type2"
+                                                    v-model="formData['1'].policyHolderIdType">
+                                                <label class="form-check-label" for="id_type2">Passport No.:</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-column">
+                                            <div class="form-group" v-if="!isIdNric">
+                                                <validation-provider v-slot="validator" :rules="{ required: !isIdNric }">                                                
+                                                        <select :class="{
+                                                            'form-control': true,
+                                                            'is-invalid': validator.errors.length > 0
+                                                            }" v-model="formData['1'].policyHolderCountry">
+                                                            <option disabled hidden selected value="">Select Country</option>
+                                                            <option v-for="country in countries"
+                                                                v-bind:key="countries.indexOf(country)"
+                                                                :value="country.code">
+                                                                {{ country.name }}
+                                                            </option>
+                                                        </select>
+                                                        <div class="invalid-feedback font-italic">
+                                                            <span>* Complete the country field.</span>
+                                                        </div>
+                                                
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="form-group" v-if="!isIdNric">
+                                                <validation-provider v-slot="validator" :rules="{ required: !isIdNric }">                                                
+                                                    <label class="bt1">Date of Birth: </label>
+                                                    <div class="form-group variant-date-picker mb-0">
+                                                    
+                                                        <div class="vdp-datepicker form-control">
+
+                                                         <Datepicker v-model="formData['1'].policyHolderDateOfBirth"  @input="updateEndDate" 
+                                                           format="dd/MM/yyyy" placeholder="dd/mm/yyyy">
+                                                                <svg class="icon">
+                                                                <use xlink:href="spa-assets/icons/icons.svg#sprite-calendar"
+                                                                    href="spa-assets/icons/icons.svg#sprite-calendar"></use>
+                                                                </svg>
+                                                            </Datepicker> 
+
+                                                            <!--<div class="">
+                                                            <input type="date" placeholder="DD/MM/YYYY" autocomplete="off" v-model="formData['1'].policyHolderDateOfBirth">                                                           
+                                                            </div>-->
+                                                        </div>
+                                                        </div>
+                                                        <div class="invalid-feedback font-italic">
+                                                            <span>* Complete the date field.</span>
+                                                        </div>                                               
+                                                </validation-provider>
+                                             </div>
+
+                                            <div class="form-group"  v-if="isIdNric">
+                                                <validation-provider v-slot="validator" v-if
+                                                    :rules="{
+                                                        'required': true,
+                                                        'nricValidDob': isIdNric,
+                                                        'nricAge18AndAbove': isIdNric,
+                                                        'min': isIdNric && {
+                                                            length: 14
+                                                        }
+                                                    }">
+                                                    
+                                                        <input type="text"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            :name="'NRIC'"
+                                                            :placeholder="'900808-10-8888'"
+                                                            v-mask="'######-##-####'"
+                                                            v-model="formData['1'].policyHolderNric"
+                                                            autocomplete="off">
+                                                        <div class="invalid-feedback font-italic">
+                                                            <span v-if="validator.failedRules.required">* Complete the NRIC field.</span>
+                                                            <span v-else-if="validator.failedRules.nricValidDob || validator.failedRules.min">Please check NRIC number</span>
+                                                            <span v-else-if="validator.failedRules.nricAge18AndAbove">Min age for main policyholder is 16.</span>
+                                                        </div>                                                    
+                                                </validation-provider>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="col-md-6 col-12" v-if="!isIdNric">
+                                        <!-- Don't change this value as this is for their CMS -->
+                                        <div class="row" style="margin-top: 2.3rem">
+                                        <!--style="margin-top: 2.3rem"-->
+                                            <div class="col-12 col-lg-6">
+                                                <validation-provider v-slot="validator"
+                                                    :rules="{
+                                                        'required': true,
+                                                    }">
+                                                    <div class="form-group">
+                                                        <input type="text"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            :name="'Passport'"
+                                                            :placeholder="'E.g.: A98765432'"
+                                                            v-mask=" 'XXXXXXXXXXXXXX'"
+                                                            v-model="formData['1'].policyHolderNric"
+                                                            autocomplete="off">
+                                                        <div class="invalid-feedback font-italic">
+                                                            <span v-if="validator.failedRules.required">* Complete the Passport field.</span>
+                                                        </div>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+
+                                <div class="bt2 mt-4 pt-2" v-if="!steps[0].showPrescreen">
+                                    <validation-provider v-slot="validator" rules="mustBeTrue">
+                                        <div class="form-check">
+                                            <input type="checkbox"
+                                                name="agreement"
+                                                id="agreement"
+                                                :class="{
+                                                    'form-check-input': true,
+                                                    'is-invalid': validator.errors.length > 0
+                                                }"
+                                                v-model="formData['1'].agreement">
+                                            <label for="agreement" class="form-check-label">
+                                                I have read and understood MSIG's <a target="_blank" href="https://www.msig.com.my/privacy-notice/" class="underline">Privacy Notice</a>, and
+                                                agree to MSIG
+                                                processing my personal data for the purposes and in the manners set out in the Privacy
+                                                Notice.
+                                            </label>
+                                            <svg class="icon icon-m tick-mark">
+                                                <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                    href="/spa-assets/icons/icons.svg#sprite-tick-mark"></use>
+                                            </svg>
+                                            <div class="invalid-feedback font-italic" v-if="validator.errors.length > 0">
+                                                * Oops, looks like you haven't ticked the box yet. Please do so to proceed
+                                            </div>
+                                        </div>
+                                    </validation-provider>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container pt-4 wizard-navigation d-flex flex-column flex-md-row">
+                            <template v-if="steps[0].showStaffVerification">
+                                <a :href="'/' + partnerCode + '/products'" class="btn btn-default btn-outline-primary order-1 order-md-0">Back</a>
+                                <a href="#" role="button"
+                                    class="btn btn-default btn-primary mb-3 mb-md-0"
+                                    @click.prevent="verifyStaffID">
+                                    Continue
+                                </a>
+                            </template>
+                            <template v-else>
+                                <a @click="canProceed = false"
+                                    class="btn btn-default btn-outline-primary order-1 order-md-0"
+                                    v-if="steps[0].showPrescreen">No</a>
+                                <a href="#" 
+                                    role="button"
+                                    class="btn btn-default btn-primary mb-3 mb-md-0"
+                                    v-if="steps[0].showPrescreen"
+                                    @click.prevent="setPrescreen(false)">
+                                    Yes</a>
+                                <a class="btn btn-default btn-outline-primary order-1 order-md-0" 
+                                    @click.prevent="setPrescreen(true)"
+                                    v-if="!steps[0].showPrescreen">Back</a>
+                                <a href="#"
+                                    @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() });"
+                                    class="btn btn-default btn-primary mb-3 mb-md-0" 
+                                    v-if="!steps[0].showPrescreen">
+                                    Continue
+                                </a>
+                            </template>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset class="wizard-section-2" v-if="currStep && currStep.stepNum === '2'">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-lg-8">
+
+                                    <div class="bg-w pt-5 pb-3 px-4 mb-3">
+                                            <div class="d-flex">
+                                                <h2 class="p2 mb-4">Period of Coverage</h2>
+                                            </div>                                            
+                                            <div class="row">
+                                                
+                                                <div class="col-12 col-md-6">
+                                                    <div class="d-flex">
+                                                        <p class="bt1 mb-2">Start Date:</p>
+                                                        <span>
+                                                            <div class="ml-2 btn-tooltip" data-toggle="tooltip"
+                                                                data-placement="right" title="The earliest coverage 
+                                                                start date that you can 
+                                                                choose is tomorrow." style="margin-top:2px;">
+                                                                ?
+                                                            </div>
+
+                                                        </span>
+                                                    </div>
+
+                                                    <validation-provider :rules="{required: true}" v-slot="validator">
+                                                    <div class=" form-group variant-date-picker mb-0">
+                                                        <div class="vdp-datepicker form-control">
+                                                           <Datepicker v-model="formData['2'].coverageStartDate" @input="updateEndDate" 
+                                                           format="dd/MM/yyyy (D)" placeholder="dd/mm/yyyy">
+                                                                <span slot="afterDateInput">
+                                                                        <svg class="icon">
+                                                                        <use xlink:href="spa-assets/icons/icons.svg#sprite-calendar"
+                                                                            href="spa-assets/icons/icons.svg#sprite-calendar"></use>
+                                                                        </svg>
+                                                                </span>
+                                                            </Datepicker> 
+                                                            <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                        <span v-if="validator.failedRules.required">* Complete the Start Date.</span>
+                                                                    </div>
+                                                            <!--<div class="text-black">
+                                                                    <input type="date" 
+                                                                        name="startDate"
+                                                                        autocomplete="off"
+                                                                        v-model="formData['2'].startDate"
+                                                                        :class="{
+                                                                            'form-control': true,
+                                                                            'is-invalid': validator.errors.length > 0
+                                                                        }"
+                                                                        @input="updateEndDate">
+                                                                    <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                        <span v-if="validator.failedRules.required">* Complete the Start Date.</span>
+                                                                    </div>
+                                                                </div>-->
+                                                        </div>
+                                                        </div>
+                                                        <!--<div class="col-3 form-group variant-date-picker mb-0">
+                                                            <div class="vdp-datepicker form-control">-->
+                                                                <!--<div class="text-black">
+                                                                    <input type="date" 
+                                                                        name="startDate"
+                                                                        autocomplete="off"
+                                                                        v-model="formData['2'].startDate"
+                                                                        :class="{
+                                                                            'form-control': true,
+                                                                            'is-invalid': validator.errors.length > 0
+                                                                        }"
+                                                                        @input="updateEndDate">
+                                                                    <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                        <span v-if="validator.failedRules.required">* Complete the Start Date.</span>
+                                                                    </div>
+                                                                </div>-->
+                                                           <!-- </div>
+                                                         </div>-->
+                                                             
+                                                    </validation-provider>
+                                                                                                 
+
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="bt1 mb-2 mt-3 mt-md-0">End Date:</p>
+                                                    <div class="form-group variant-date-picker mb-0 ">
+                                                        <div class="vdp-datepicker form-control">
+                                                            <Datepicker v-model="formData['2'].coverageEndDate" @input="updateEndDate" 
+                                                           format="dd/MM/yyyy (D)" placeholder="dd/mm/yyyy" disabled>
+                                                                <span slot="afterDateInput">
+                                                                        <svg class="icon">
+                                                                        <use xlink:href="spa-assets/icons/icons.svg#sprite-calendar"
+                                                                            href="spa-assets/icons/icons.svg#sprite-calendar"></use>
+                                                                        </svg>
+                                                                </span>
+                                                            </Datepicker> 
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <validation-provider :rules="{required: true}" v-slot="validator">
+                                                <div class="swiper-container pb-4 pb-md-5 mb-3 mb-mb-0">
+                                                    <div class="swiper-container mt-5 d-none d-md-block ">
+                                                        <h2 class="p2 mb-4">Please Select your Preferred Plan</h2>
+                                                        <div class="swiper-wrapper">
+                                                            <!-- card 1 -->
+                                                            <div
+                                                                class="swiper-slide selection-infobox selection-planbox mb-3 mb-lg-0">
+                                                                <input type="radio" id="slider1" name="plan" class="slider1" value="Plan A" v-model="formData['2'].planName" @click="updatePlanDetails">
+                                                                <label class="d-block" for="slider1">
+                                                                    <div class="box overflow-hidden">
+                                                                        <div class="header-match-height">
+                                                                            <div class="box--header bg-p2 text-white p-3">
+                                                                                <h4 class="m-0 pb-2 bt5">Plan A</h4>
+                                                                                <h4 class="m-0 bt5 pb-2 basePremium">RM13.00</h4>
+                                                                            </div>
+                                                                            <div class="pl-3 pr-2 pt-4">
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <p class="bt2 mb-0 bold">Benefits</p>
+                                                                                    <p class="bt2 mb-0 bold">RM</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="pl-3 pr-2 py-1 my-2">
+                                                                            <div class="d-flex ">
+                                                                                <svg class="icon icon-l tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Accidental Death / Permanent Disablement</p></div>
+                                                                                <p class="bt2 mb-0 planAccidentalDeathPermanentDisablement">6,000</p>
+                                                                            </div>
+                                                                            
+                                                                            <div class="d-flex">
+                                                                                <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Bereavement Allowance</p></div>
+                                                                                <p class="bt2 mb-0 planBereavementAllowance" style="padding-left: 26px;">500</p>
+                                                                            </div>
+                                                                           
+                                                                        </div>
+                                                                        <div class="custom-rounded-checked mt-2">
+                                                                            <svg class="icon icon-m tick-mark my-2">
+                                                                                <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                    href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                </use>
+                                                                            </svg>
+                                                                        </div>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- card 2 --> 
+                                                            <div
+                                                                class="swiper-slide selection-infobox selection-planbox mb-3 mb-lg-0" >
+                                                                <input type="radio" id="slider2" name="plan" class="slider2" value="Plan B"  v-model="formData['2'].planName" @click="updatePlanDetails">
+                                                                <label class="d-block" for="slider2">
+                                                                    <div class="box overflow-hidden">
+                                                                        <div class="header-match-height">
+                                                                            <div class="box--header bg-p2 text-white p-3">
+                                                                                <h4 class="m-0 pb-2 bt5">Plan B</h4>
+                                                                                    <h4 class="m-0 bt5 pb-2 basePremium">RM26.00</h4>
+                                                                            </div>
+                                                                            <div class="pl-3 pr-2 pt-4">
+                                                                                <div class="d-flex justify-content-between ">
+                                                                                    <p class="bt2 mb-0 bold ">Benefits</p>
+                                                                                    <p class="bt2 mb-0 bold ">RM</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                         <div class="pl-3 pr-2 py-1 my-2">
+                                                                            <div class="d-flex ">
+                                                                                <svg class="icon icon-l tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Accidental Death / Permanent Disablement</p></div>
+                                                                                <p class="bt2 mb-0 planAccidentalDeathPermanentDisablement">12,000</p>
+                                                                            </div>
+                                                                            
+                                                                            <div class="d-flex">
+                                                                                <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Bereavement Allowance</p></div>
+                                                                                <p class="bt2 mb-0 planBereavementAllowance" style="padding-left: 26px;">500</p>
+                                                                            </div>
+                                                                           
+                                                                        </div>
+                                                                    <div class="custom-rounded-checked mt-2">
+                                                                    <!--style="background-color: #27ae60;"-->
+                                                                    <svg
+                                                                        class="icon icon-m tick-mark my-2">
+                                                                        <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                            href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                        </use>
+                                                                    </svg>
+                                                                </div>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- card 3 --> 
+                                                            <div
+                                                                class="swiper-slide selection-infobox selection-planbox mb-3 mb-lg-0">
+                                                                <input type="radio" id="slider3" name="plan" class="slider3" value="Plan C"  v-model="formData['2'].planName" @click = "updatePlanDetails">
+                                                                <label class="d-block" for="slider3">
+                                                                    <div class="box overflow-hidden">
+                                                                        <div class="header-match-height">
+                                                                            <div class="box--header bg-p2 text-white p-3">
+                                                                                <h4 class="m-0 pb-2 bt5">Plan C</h4>
+                                                                                    <h4 class="m-0 bt5 pb-2 basePremium">RM39.00</h4>
+                                                                            </div>
+                                                                            <div class="pl-3 pr-2 pt-4">
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <p class="bt2 mb-0 bold">Benefits</p>
+                                                                                    <p class="bt2 mb-0 bold">RM</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                         <div class="pl-3 pr-2 py-1 my-2">
+                                                                            <div class="d-flex">
+                                                                                <svg class="icon icon-l tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Accidental Death / Permanent Disablement</p></div>
+                                                                                <p class="bt2 mb-0 planAccidentalDeathPermanentDisablement">18,000</p>
+                                                                            </div>
+                                                                            
+                                                                            <div class="d-flex">
+                                                                                <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Bereavement Allowance</p></div>
+                                                                                <p class="bt2 mb-0 planBereavementAllowance" style="padding-left: 26px;">500</p>
+                                                                            </div>
+                                                                           
+                                                                        </div>
+                                                                        <div class="custom-rounded-checked mt-2">
+                                                                            <svg class="icon icon-m tick-mark my-2">
+                                                                                <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                    href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                </use>
+                                                                            </svg>
+                                                                        </div>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+
+                                                            <!-- card 4 --> 
+                                                            <div
+                                                                class="swiper-slide swiper-slide-opacity4 selection-infobox selection-planbox mb-3 mb-lg-0">
+                                                                <input type="radio" id="slider4" name="plan" class="slider4" value="Plan D" v-model="formData['2'].planName" @click="updatePlanDetails">
+                                                                <label class="d-block" for="slider4">
+                                                                    <div class="box overflow-hidden">
+                                                                        <div class="header-match-height">
+                                                                            <div class="box--header bg-p2 text-white p-3">
+                                                                                <h4 class="m-0 pb-2 bt5">Plan D</h4>
+                                                                                <h4 class="m-0 bt5 pb-2 basePremium">RM52.00</h4>
+                                                                            </div>
+                                                                            <div class="pl-3 pr-2 pt-4">
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <p class="bt2 mb-0 bold">Benefits</p>
+                                                                                    <p class="bt2 mb-0 bold">RM</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                         <div class="pl-3 pr-2 py-1 my-2">
+                                                                            <div class="d-flex">
+                                                                                <svg class="icon icon-l tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Accidental Death / Permanent Disablement</p></div>
+                                                                                <p class="bt2 mb-0 planAccidentalDeathPermanentDisablement">24,000</p>
+                                                                            </div>
+                                                                            
+                                                                            <div class="d-flex">
+                                                                                <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                    </use>
+                                                                                </svg>
+                                                                                <div>
+                                                                                <p class="bt2 mb-0" style="text-align:left">Bereavement Allowance</p></div>
+                                                                                <p class="bt2 mb-0 planBereavementAllowance" style="padding-left: 26px;">500</p>
+                                                                            </div>
+                                                                           
+                                                                        </div>
+                                                                        <div class="custom-rounded-checked mt-2">
+                                                                            <svg class="icon icon-m tick-mark my-2">
+                                                                                <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                    href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                                </use>
+                                                                            </svg>
+                                                                        </div>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="swiper-button-next swiper-button-next-form swiper-button-next-overwrite " v-on:click="swiperSlide">
+                                                        </div>
+                                                        <div class="swiper-button-prev d-none swiper-button-prev-form swiper-button-prev-overwrite " v-on:click="swiperSlide">
+                                                        </div>
+                                                    </div>
+                                                    <div class="swiper-pagination mt-5 d-none d-md-block"></div>
+                                                </div>
+    
+
+
+
+                                            <div class="vertical-scroller mt-1 d-md-none">
+                                                <h3 class="p2 mb-4">Please Select your Preferred Plan</h3>
+                                                <!-- card 1 -->
+                                                <div
+                                                    class="selection-infobox selection-planbox mb-3 mb-lg-0 mr-3 w-100">
+                                                    <input type="radio" id="ver-slider1" name="ver-plan" class="slider1" value="Plan A" v-model="formData['2'].planName" @click="updatePlanDetails">
+                                                    <label class="d-block" for="ver-slider1">
+                                                        <div class="box overflow-hidden">
+                                                            <div class="header-match-height">
+                                                                <div class="box--header bg-p2 text-white p-3">
+                                                                    <h4 class="m-0 pb-1">Plan A</h4>
+                                                                    <h4 class="m-0 basePremium">RM13.00</h4>
+                                                                </div>
+                                                                <div class="pl-3 pr-2 pt-4">
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <p class="bt2 mb-0 bold">Benefits</p>
+                                                                        <p class="bt2 mb-0 bold">RM</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pl-3 pr-2 py-1 my-2">
+                                                                <div class="d-flex ">
+                                                                        <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                        <p class="bt2" style="text-align:left">Accidental Death / Permanent Disablement</p>
+                                                                        </div>
+                                                                    <p class="bt2 mb-0 pl-2 planAccidentalDeathPermanentDisablement" >6,000</p>
+                                                                </div>
+                                                                <div class="d-flex">
+                                                                        <svg class="icon icon-s tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                        <p class="mb-0">Bereavement Allowance</p>
+                                                                        </div>
+                                                                    <p class="mb-0 planBereavementAllowance" style="padding-left: 40px;">500</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="custom-rounded-checked">
+                                                                <svg class="icon icon-m tick-mark my-2">
+                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                    </use>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                                <!-- card 2 -->
+                                                <div
+                                                    class="selection-infobox selection-planbox mb-3 mb-lg-0 mr-3 w-100">
+                                                    <input type="radio" id="ver-slider2" name="ver-plan" class="slider2" value="Plan B" v-model="formData['2'].planName" @click="updatePlanDetails">
+
+                                                    <label class="d-block" for="ver-slider2">
+                                                        <div class="box overflow-hidden">
+                                                            <div class="header-match-height">
+                                                                <div class="box--header bg-p2 text-white p-3">
+                                                                    <h4 class="m-0 pb-1">Plan B</h4>
+                                                                    <h4 class="m-0 basePremium">RM26.00</h4>
+                                                                </div>
+                                                                <div class="pl-3 pr-2 pt-4">
+                                                                    <div
+                                                                        class="d-flex justify-content-between text-white">
+                                                                        <p class="bt2 mb-0 bold ">Benefits</p>
+                                                                        <p class="bt2 mb-0 bold ">RM</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pl-3 pr-2 py-1 my-2">
+                                                                <div class="d-flex ">
+                                                                        <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                            <p class="bt2" style="text-align:left">Accidental Death / Permanent Disablement</p>
+                                                                        </div>
+                                                                        <p class="bt2 mb-0 pl-2 planAccidentalDeathPermanentDisablement" >12,000</p>
+                                                                </div>
+                                                                <div class="d-flex">
+                                                                        <svg class="icon icon-s tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                        <p class="mb-0">Bereavement Allowance</p>
+                                                                        </div>
+                                                                        <p class="mb-0 planBereavementAllowance" style="padding-left: 40px;">500</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="custom-rounded-checked">
+                                                                <svg
+                                                                    class="icon icon-m tick-mark my-2 ">
+                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                    </use>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                                <!-- card 3 -->
+                                                <div
+                                                    class="selection-infobox selection-planbox mb-3 mb-lg-0 mr-3 w-100">
+                                                    <input type="radio" id="ver-slider3" name="ver-plan" class="slider3" value="Plan C" v-model="formData['2'].planName" @click="updatePlanDetails">
+
+                                                    <label class="d-block" for="ver-slider3">
+                                                        <div class="box overflow-hidden">
+                                                            <div class="header-match-height">
+                                                                <div class="box--header bg-p2 text-white p-3">
+                                                                    <h4 class="m-0 pb-1">Plan C</h4>
+                                                                    <h4 class="m-0 basePremium">RM39.00</h4>
+                                                                </div>
+                                                                <div class="pl-3 pr-2 pt-4">
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <p class="bt2 mb-0 bold">Benefits</p>
+                                                                        <p class="bt2 mb-0 bold">RM</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                             <div class="pl-3 pr-2 py-1 my-2">
+                                                                <div class="d-flex ">
+                                                                        <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                        <p class="bt2" style="text-align:left">Accidental Death / Permanent Disablement</p>
+                                                                        </div>
+                                                                    <p class="bt2 mb-0 pl-2 planAccidentalDeathPermanentDisablement" >18,000</p>
+                                                                </div>
+                                                                <div class="d-flex">
+                                                                        <svg class="icon icon-s tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                        <p class="mb-0">Bereavement Allowance</p>
+                                                                        </div>
+                                                                    <p class="mb-0 planBereavementAllowance" style="padding-left: 40px;">500</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="custom-rounded-checked">
+                                                                <svg class="icon icon-m tick-mark my-2">
+                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                    </use>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                                <!-- card 4 -->
+                                                <div
+                                                    class="selection-infobox selection-planbox mb-3 mb-lg-0 mr-3 w-100">
+                                                    <input type="radio" id="ver-slider4" name="ver-plan" class="slider4" value="Plan D" v-model="formData['2'].planName" @click="updatePlanDetails">
+
+                                                    <label class="d-block" for="ver-slider4">
+                                                        <div class="box overflow-hidden">
+                                                            <div class="header-match-height">
+                                                                <div class="box--header bg-p2 text-white p-3">
+                                                                    <h4 class="m-0 pb-1">Plan D</h4>
+                                                                    <h4 class="m-0 basePremium">RM52.00</h4>
+                                                                </div>
+                                                                <div class="pl-3 pr-2 pt-4">
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <p class="bt2 mb-0 bold">Benefits</p>
+                                                                        <p class="bt2 mb-0 bold">RM</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                             <div class="pl-3 pr-2 py-1 my-2">
+                                                                <div class="d-flex ">
+                                                                        <svg class="icon icon-m tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                        <p class="bt2" style="text-align:left">Accidental Death / Permanent Disablement</p>
+                                                                        </div>
+                                                                    <p class="bt2 mb-0 pl-2 planAccidentalDeathPermanentDisablement" >24,000</p>
+                                                                </div>
+                                                                <div class="d-flex">
+                                                                        <svg class="icon icon-s tick-mark mr-1 mt-1">
+                                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                        <div>
+                                                                        <p class="mb-0">Bereavement Allowance</p>
+                                                                        </div>
+                                                                    <p class="mb-0 planBereavementAllowance" style="padding-left: 40px;">500</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="custom-rounded-checked">
+                                                                <svg class="icon icon-m tick-mark my-2">
+                                                                    <use xlink:href="spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                        href="spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                    </use>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                             <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                        <span v-if="validator.failedRules.required">* Please Choose a Coverage Plan.</span>
+                                                                    </div>
+                                             </validation-provider>
+
+
+                                        </div>                            
+                                  
+                                  
+                                    
+                                    <div class="pt-4 wizard-navigation d-none d-md-flex">
+                                        <a @click.prevent="goToPrevStep()" href="#" role="button" class="btn btn-default btn-outline-primary mr-4">Back</a>
+                                        <a @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" href="#" role="button" class="btn btn-default btn-primary">Continue</a>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-4">
+                                    <motor-summary-pane 
+                                        :curr-step-num="currStep.stepNum"
+                                        :form-data="formData"
+                                    ></motor-summary-pane>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container pt-4 wizard-navigation d-md-none">
+                            <a @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" href="#" role="button" class="btn btn-default btn-primary mb-3 mb-md-0">Continue</a>
+                            <a @click.prevent="goToPrevStep()" href="#" role="button" class="btn btn-default btn-outline-primary ">Back</a>
+                        </div>
+                    </fieldset>                    
+
+                    <fieldset class="wizard-section-3" v-if="currStep && currStep.stepNum === '3'">
+                        <div class="container" v-if="isIdNric">
+                            <div class="row">
+                                <div class="col-12 col-md-8">
+                                    <div class="bg-w py-5 px-4 mb-4">
+                                        <div class="d-flex">
+                                            <h2 class="p2 mb-4">Personal Details</h2>
+                                        </div>
+
+                                        <div class="row">
+                                        
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider rules="required|validName" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label for="customerName" class="bt1">Name (as per NRIC):</label>
+                                                        <input type="text"
+                                                            id="customerName"
+                                                             placeholder="E.g.: Lee Siew Suan"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            v-model="formData['3'].policyHolderName"
+                                                           >
+                                                        <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">* Complete the Name as per NRIC field.</span>
+                                                            <span v-else-if="validator.failedRules.validName">Please enter only alphabet, "-", "@", "/" and " ' " for Name</span>
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                            <div class="form-group" >
+                                                    <label class="bt1">NRIC No.:</label>
+                                                    <input type="text" 
+                                                        class="form-control"
+                                                        v-model="formData['1'].policyHolderNric"
+                                                        placeholder="formData['1'].policyHolderNric"
+                                                        disabled
+                                                        v-mask="'######-##-####'">
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider rules="required|email" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label class="bt1 d-flex">
+                                                            Email: 
+                                                            <span>
+                                                                <div class="ml-2 btn-tooltip"
+                                                                    data-toggle="tooltip"
+                                                                    data-placement="right"
+                                                                    title="Email address provided should be the insured's email address. Future email communications regarding this policy will be sent to the email submitted. For policy renewal, kindly use the email address that is tied to your existing policy.">
+                                                                    ?
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" 
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            v-model="formData['3'].policyHolderEmail"
+                                                            placeholder="E.g.: you@gmail.com">
+                                                        <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">* Complete the Email field.</span>
+                                                            <span v-else-if="validator.failedRules.email">Please enter a valid email address</span>
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                                
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                              <validation-provider rules="required|mobileNumber" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label class="bt1">Mobile No.:</label>
+                                                        <input type="tel"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            v-mask="'###-### #####'"
+                                                            v-model="formData['3'].policyHolderMobileNo"
+                                                            placeholder="E.g.: 018-123 4567">
+                                                        <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">* Complete the Mobile field.</span>
+                                                            <span v-else-if="validator.failedRules.mobileNumber">Please check mobile number.</span>
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider rules="required" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label for="address1" class="bt1">Address:</label>
+                                                        <input type="text"
+                                                            id="address1"
+                                                            placeholder="First Line"
+                                                            v-model="formData['3'].policyHolderAddressLine1"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }">
+                                                        <small class="error-message text-primary font-italic" v-if="validator.failedRules.required">
+                                                            * Complete the Address field.
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                                <div class="form-group">
+                                                    <input type="text"
+                                                        id="address2" 
+                                                        placeholder="Second Line"
+                                                        class="form-control"
+                                                        v-model="formData['3'].policyHolderAddressLine2">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider rules="required|min:5|max:5|integer" v-slot="validator" ref="postcode1">
+                                                    <div class="form-group variant-icon variant-autocomplete" @click="$refs.postcode1.validate()">
+                                                        <label class="bt1">Postcode:</label>
+                                                         <div class="input-wrapper">
+                                                        <vue-typeahead-bootstrap
+                                                            v-model="formData['3'].addressPostcode"
+                                                            :data="postcodeSuggestions"
+                                                            :serializer="function (s) { return s.postcode }"
+                                                            placeholder="Find postcode"
+                                                            :max-matches="5"
+                                                            :input-class="validator.errors.length > 0 ? 'is-invalid' : ''"
+                                                            @hit="handlePostcodeHit($event)"
+                                                            maxlength="5"
+                                                            v-mask="'#####'"
+                                                        >
+                                                            <template v-slot:append>
+                                                            
+                                                                <svg class="icon icon-s mr-2">
+                                                                    <use xlink:href="/spa-assets/icons/icons.svg#sprite-search"
+                                                                        href="/spa-assets/icons/icons.svg#sprite-search"></use>
+                                                                </svg>
+                                                            </template>
+                                                        </vue-typeahead-bootstrap>
+                                                        </div>
+                                                        <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">
+                                                                * Complete the Postcode field.
+                                                            </span>
+                                                            <span v-else-if="validator.failedRules.min || validator.failedRules.max || validator.failedRules.integer">
+                                                                Please enter a valid Postcode.
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="bt1" for="city"> City:</label>
+                                                    <input type="text" 
+                                                        id="city"
+                                                        disabled = "disabled"
+                                                        placeholder="City"
+                                                        v-model="formData['3'].addressCity"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+
+                                             <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="bt1" for="state" >State:</label>
+                                                    <input type="text"
+                                                        id="state"
+                                                        disabled = "disabled"
+                                                        placeholder="State"
+                                                        v-model="formData['3'].addressState"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="pt-4 wizard-navigation d-md-flex">
+                                        <a @click.prevent="goToPrevStep()" href="#" role="button" class="btn btn-default btn-outline-primary my-2 my-md-0">Back</a>
+                                        <a @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" href="#" role="button" class="btn btn-default btn-primary mb-3 mb-md-0">Continue</a>
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="col-12 col-lg-4">
+                                        <motor-summary-pane 
+                                            :curr-step-num="currStep.stepNum"
+                                            :form-data="formData"
+                                        ></motor-summary-pane>
+                                </div>                          
+                            </div>
+                            
+                        </div>
+
+                       <div class="container" v-if="!isIdNric">
+                            <div class="row">
+                                <div class="col-12 col-md-8">
+                                    <div class="bg-w py-5 px-4 mb-4">
+                                        <div class="d-flex">
+                                            <h2 class="p2 mb-4">Personal Details</h2>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider v-slot="validator" :rules="{ required: !isIdNric }"> 
+                                                    <div class="form-group">                                               
+                                                            <select :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                                }" v-model="formData['3'].policyHolderCountry">
+                                                                <option disabled hidden selected value="formData['3'].policyHolderCountry">{{formData['3'].policyHolderCountry}}</option>
+                                                                <option v-for="country in countries"
+                                                                    v-bind:key="countries.indexOf(country)"
+                                                                    :value="country.code">
+                                                                    {{ country.name }}
+                                                                </option>
+                                                            </select>
+                                                             <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                <span v-if="validator.failedRules.required">* Complete the Country field.</span>
+                                                            </small>
+                                                            
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+                                        </div>
+                                                                    
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider rules="required|validName" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label for="customerName" class="bt1">Name (as per Passport):</label>
+                                                        <input type="text"
+                                                            id="customerName"
+                                                             placeholder="E.g.: Lee Siew Suan"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            v-model="formData['3'].policyHolderName"
+                                                           >
+                                                        <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">* Complete the Name as per passport field.</span>
+                                                            <span v-else-if="validator.failedRules.validName">Please enter only alphabet, "-", "@", "/" and " ' " for Name</span>
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                              <div class="form-group" >
+                                                    <label class="bt1">Passport No.:</label>
+                                                    <input type="text" 
+                                                        class="form-control"
+                                                        v-model="formData['1'].policyHolderNric"
+                                                        placeholder="formData['1'].policyHolderNric"
+                                                        disabled
+                                                        v-mask="'XXXXXXXXXXXXXX'">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider rules="required|email" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label class="bt1 d-flex">
+                                                            Email: 
+                                                            <span>
+                                                                <div class="ml-2 btn-tooltip"
+                                                                    data-toggle="tooltip"
+                                                                    data-placement="right"
+                                                                    title="Email address provided should be the insured's email address. Future email communications regarding this policy will be sent to the email submitted. For policy renewal, kindly use the email address that is tied to your existing policy.">
+                                                                    ?
+                                                                </div>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" 
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            v-model="formData['3'].policyHolderEmail"
+                                                            placeholder="E.g.: you@gmail.com">
+                                                        <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">* Complete the Email field.</span>
+                                                            <span v-else-if="validator.failedRules.email">Please enter a valid email address</span>
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                               <validation-provider rules="required|mobileNumber" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label class="bt1">Mobile No.:</label>
+                                                        <input type="tel"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }"
+                                                            v-mask="'###-### #####'"
+                                                            v-model="formData['3'].policyHolderMobileNo"
+                                                            placeholder="E.g.: 018-123 4567">
+                                                        <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">* Complete the Mobile field.</span>
+                                                            <span v-else-if="validator.failedRules.mobileNumber">Please check mobile number.</span>
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <validation-provider rules="required" v-slot="validator">                                                    
+                                                        <p class="bt1 mb-2">Gender</p>                                                        
+                                                        <div class="form-group">                                                      
+                                                            <select class="form-control" v-model="formData['3'].policyHolderGender">
+                                                                <option disabled hidden selected value="" class="italic">Select Option
+                                                                </option>
+                                                                <option value="Male">
+                                                                    Male</option>
+                                                                    <option value="Female">
+                                                                        Female</option>
+                                                            </select>
+                                                            <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                <span v-if="validator.failedRules.required">* Complete the Gender field.</span>
+                                                            </small>
+                                                        </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="bt1">Date of Birth: </label>
+                                                    <div class="form-group variant-date-picker mb-0">
+                                                        <div class="vdp-datepicker form-control">
+                                                            <div class="text-black">
+                                                                <input type="text" v-model ="dateOfBirth" readonly="readonly"
+                                                                 autocomplete="off" disabled>
+                                                                 <svg class="icon">
+                                                                        <use xlink:href="spa-assets/icons/icons.svg#sprite-calendar"
+                                                                            href="spa-assets/icons/icons.svg#sprite-calendar"></use>
+                                                                        </svg>
+                                                            </div>
+                                                        
+                                                        </div>
+                                                        <svg class="icon">
+                                                            <use xlink:href="spa-assets/icons/icons.svg#sprite-calendar"
+                                                                href="spa-assets/icons/icons.svg#sprite-calendar"></use>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                               <validation-provider rules="required" v-slot="validator">
+                                                    <div class="form-group">
+                                                        <label for="address1" class="bt1">Address:</label>
+                                                        <input type="text"
+                                                            id="address1"
+                                                            placeholder="First Line"
+                                                            v-model="formData['3'].policyHolderAddressLine1"
+                                                            :class="{
+                                                                'form-control': true,
+                                                                'is-invalid': validator.errors.length > 0
+                                                            }">
+                                                        <small class="error-message text-primary font-italic" v-if="validator.failedRules.required">
+                                                            * Complete the Address field.
+                                                        </small>
+                                                    </div>
+                                                </validation-provider>
+                                                <div class="form-group">
+                                                    <input type="text"
+                                                        id="address2" 
+                                                        placeholder="Second Line"
+                                                        class="form-control"
+                                                        v-model="formData['3'].policyHolderAddressLine2">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-12 col-md-6">
+                                               <validation-provider rules="required|min:5|max:5|integer" v-slot="validator" ref="postcode1">
+                                                    <div class="form-group variant-icon variant-autocomplete" @click="$refs.postcode1.validate()">
+                                                        <label class="bt1">Postcode:</label>
+                                                         <div class="input-wrapper">
+                                                        <vue-typeahead-bootstrap
+                                                            v-model="formData['3'].addressPostcode"
+                                                            :data="postcodeSuggestions"
+                                                            :serializer="function (s) { return s.postcode }"
+                                                            placeholder="Find postcode"
+                                                            :max-matches="5"
+                                                            :input-class="validator.errors.length > 0 ? 'is-invalid' : ''"
+                                                            @hit="handlePostcodeHit($event)"
+                                                            maxlength="5"
+                                                            v-mask="'#####'"
+                                                        >
+                                                            <template v-slot:append>
+                                                            
+                                                                <svg class="icon icon-s mr-2">
+                                                                    <use xlink:href="/spa-assets/icons/icons.svg#sprite-search"
+                                                                        href="/spa-assets/icons/icons.svg#sprite-search"></use>
+                                                                </svg>
+                                                            </template>
+                                                        </vue-typeahead-bootstrap>
+                                                        </div>
+                                                        <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                            <span v-if="validator.failedRules.required">
+                                                                * Complete the Postcode field.
+                                                            </span>
+                                                            <span v-else-if="validator.failedRules.min || validator.failedRules.max || validator.failedRules.integer">
+                                                                Please enter a valid Postcode.
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label class="bt1" for="city"> City:</label>
+                                                    <input type="text" 
+                                                        id="city"
+                                                        disabled = "disabled"
+                                                        placeholder="City"
+                                                        v-model="formData['3'].addressCity"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                               <div class="form-group">
+                                                    <label class="bt1" for="state" >State:</label>
+                                                    <input type="text"
+                                                        id="state"
+                                                        disabled = "disabled"
+                                                        placeholder="State"
+                                                        v-model="formData['3'].addressState"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                   <div class="pt-4 wizard-navigation d-md-flex">
+                                        <a @click.prevent="goToPrevStep()" href="#" role="button" class="btn btn-default btn-outline-primary">Back</a>
+                                        <a @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" href="#" role="button" class="btn btn-default btn-primary mb-3 mb-md-0">Continue</a>
+                                        
+                                    </div>
+                                </div>
+                                 <div class="col-12 col-lg-4">
+                                        <motor-summary-pane 
+                                            :curr-step-num="currStep.stepNum"
+                                            :form-data="formData"
+                                        ></motor-summary-pane>
+                                </div>  
+                            </div>
+                           
+                        </div>
+                    
+                    </fieldset>                   
+
+                    <fieldset class="wizard-section-4" v-if="currStep && currStep.stepNum === '4'">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-lg-8">
+
+                                    <!-- #region Rider Details -->
+                                    <validation-observer ref="editRiderObserver">
+                                        <div class="bg-w py-5 pb-3 px-4 mb-4">
+                                            <h2 class="p2 mb-4">Personal Details</h2>
+                                            <div class="row">
+                                                <div class="col-12 col-md-6">
+                                                    <p class="bt1 mb-0">Name (as per NRIC):</p>
+                                                    <p class="bt2" v-if="!formData['4'].isRiderDetailsEditMode">{{ formData['4'].policyHolderName }}</p>
+                                                    <template v-if="formData['4'].isRiderDetailsEditMode">
+                                                        <validation-provider rules="required|validName" v-slot="validator">
+                                                            <div class="form-group">
+                                                                <input type="text"
+                                                                    :class="{
+                                                                        'form-control': true,
+                                                                        'is-invalid': validator.errors.length > 0
+                                                                    }"
+                                                                    v-model="formData['4'].policyHolderName"
+                                                                    placeholder="E.g. Lee Siew Suan">
+                                                                <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                    <span v-if="validator.failedRules.required">* Complete the Name as per NRIC field.</span>
+                                                                    <span v-else-if="validator.failedRules.validName">Please enter only alphabet, "-", "@", "/" and " ' " for Name</span>
+                                                                </small>
+                                                            </div>
+                                                        </validation-provider>
+                                                    </template>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="bt1 mb-0">NRIC No.:</p>
+                                                    <p class="bt2" v-if="!formData['4'].isRiderDetailsEditMode">{{ formData['1'].policyHolderNric }}</p>
+                                                    <div class="form-group" v-if="formData['4'].isRiderDetailsEditMode">
+                                                        <input type="text" class="form-control" v-model="formData['1'].policyHolderNric" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="bt1 mb-0">Email:</p>
+                                                    <p class="bt2" v-if="!formData['4'].isRiderDetailsEditMode">{{ formData['4'].policyHolderEmail }}</p>
+                                                    <template v-if="formData['4'].isRiderDetailsEditMode">
+                                                        <validation-provider rules="required|email" v-slot="validator">
+                                                            <div class="form-group">
+                                                                <input type="text" 
+                                                                    :class="{
+                                                                        'form-control': true,
+                                                                        'is-invalid': validator.errors.length > 0
+                                                                    }"
+                                                                    v-model="formData['4'].policyHolderEmail"
+                                                                    placeholder="E.g. 900808-10-8888">
+                                                                <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                    <span v-if="validator.failedRules.required">* Complete the Email field.</span>
+                                                                    <span v-else-if="validator.failedRules.email">Please enter a valid email address</span>
+                                                                </small>
+                                                            </div>
+                                                        </validation-provider>
+                                                    </template>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="bt1 mb-0">Mobile No.:</p>
+                                                    <p class="bt2" v-if="!formData['4'].isRiderDetailsEditMode">{{ formData['4'].policyHolderMobileNo }}</p>
+                                                    <template v-if="formData['4'].isRiderDetailsEditMode">
+                                                        <validation-provider rules="required|mobileNumber" v-slot="validator">
+                                                            <div class="form-group">
+                                                                <input type="tel"
+                                                                    :class="{
+                                                                        'form-control': true,
+                                                                        'is-invalid': validator.errors.length > 0
+                                                                    }"
+                                                                    v-model="formData['4'].policyHolderMobileNo"
+                                                                    placeholder="E.g. 018-123 4567">
+                                                                <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                    <span v-if="validator.failedRules.required">* Complete the Mobile field.</span>
+                                                                    <span v-else-if="validator.failedRules.integer || validator.failedRules.max">Please check mobile number.</span>
+                                                                </small>
+                                                            </div>
+                                                        </validation-provider>
+                                                    </template>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <p class="bt1 mb-0">Address:</p>
+                                                    <p class="bt2" v-if="!formData['4'].isRiderDetailsEditMode">{{ fullAddress }}</p>
+                                                    <template v-if="formData['4'].isRiderDetailsEditMode">
+                                                        <!-- Address Line 1 -->
+                                                        <validation-provider rules="required" v-slot="validator">
+                                                            <div class="form-group">
+                                                                <input type="text"
+                                                                    placeholder="First Line"
+                                                                    v-model="formData['4'].policyHolderAddressLine1"
+                                                                    :class="{
+                                                                        'form-control': true,
+                                                                        'is-invalid': validator.errors.length > 0
+                                                                    }">
+                                                                <small class="error-message text-primary font-italic" v-if="validator.failedRules.required">
+                                                                    * Complete the Address field.
+                                                                </small>
+                                                            </div>
+                                                        </validation-provider>
+                                                        
+                                                        <!-- Address Line 2 -->
+                                                        <div class="form-group">
+                                                            <input type="text"
+                                                                placeholder="Second Line"
+                                                                class="form-control"
+                                                                v-model="formData['4'].policyHolderAddressLine2">
+                                                        </div>
+
+                                                        
+                                                        
+                                                    </template>
+                                                </div>
+
+                                                <template v-if="formData['4'].isRiderDetailsEditMode">
+                                                    <div class="col-12 col-md-6">
+                                                        <!-- Postcode -->
+                                                        <validation-provider rules="required|min:5|max:5|integer" v-slot="validator">
+                                                            <div class="form-group variant-icon variant-autocomplete">
+                                                                <label class="bt1">Postcode:</label>
+                                                                <vue-typeahead-bootstrap
+                                                                    :data="postcodeSuggestions"
+                                                                    v-model="formData['4'].addressPostcode"
+                                                                    :serializer="function(s) { return s.postcode }"
+                                                                    placeholder="Find postcode"
+                                                                    :max-matches="5"
+                                                                    :input-class="validator.errors.length > 0 ? 'is-invalid' : ''"
+                                                                    @hit="handlePostcodeHit($event)"
+                                                                    maxlength="5"
+                                                                >
+                                                                    <template slot="append">
+                                                                        <svg class="icon icon-s mr-2">
+                                                                            <use xlink:href="/spa-assets/icons/icons.svg#sprite-search"
+                                                                                href="/spa-assets/icons/icons.svg#sprite-search"></use>
+                                                                        </svg>
+                                                                    </template>
+                                                                </vue-typeahead-bootstrap>
+                                                                <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                    <span v-if="validator.failedRules.required">
+                                                                        * Complete the Postcode field.
+                                                                    </span>
+                                                                    <span v-else-if="validator.failedRules.min || validator.failedRules.max || validator.failedRules.integer">
+                                                                        Please enter a valid Postcode.
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </validation-provider>
+                                                    </div>
+                                                    
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="bt1">City:</label>
+                                                            <input type="text" 
+                                                                disabled="disabled"
+                                                                placeholder="city"
+                                                                v-model="formData['4'].addressCity"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="bt1">State:</label>
+                                                            <input type="text"
+                                                                disabled="disabled"
+                                                                placeholder="state"
+                                                                v-model="formData['4'].addressState"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </template>
+
+                                                
+                                                
+                                                
+                                                
+                                            </div>
+
+                                            <div class="d-flex justify-content-end" v-if="!formData['4'].isRiderDetailsEditMode">
+                                                <a href="#" @click.prevent="formData['4'].isRiderDetailsEditMode = true" class="btn btn-secondary btn-icon">
+                                                    <div class="button-icon">
+                                                        <svg class="icon icon-s">
+                                                            <use xlink:href="/spa-assets/icons/icons.svg#sprite-pencil-1"
+                                                                href="/spa-assets/icons/icons.svg#sprite-pencil-1"></use>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="button-text">Edit</span>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex justify-content-end" v-if="formData['4'].isRiderDetailsEditMode">
+                                                <a href="#"
+                                                    class="btn btn-primary btn-icon mr-3"
+                                                    @click.prevent="cancelEditRiderDetails">
+                                                    <div class="button-icon">
+                                                        <svg class="icon icon-s">
+                                                            <use xlink:href="/spa-assets/icons/icons.svg#sprite-close"
+                                                                href="/spa-assets/icons/icons.svg#sprite-close"></use>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="button-text">Cancel</span>
+                                                </a>
+                                                <a href="#"
+                                                    class="btn btn-secondary"
+                                                    @click.prevent="saveEditRiderDetails">
+                                                    <span class="button-text">Save</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </validation-observer>
+                                    <!-- #endregion Rider Details -->                                   
+                                   
+
+                                    <validation-provider v-slot="validator" rules="mustBeTrue">
+                                        <div class="form-check d-none d-lg-block">
+                                            <input type="checkbox"
+                                                name="tncAgreement"
+                                                id="tncAgreement"
+                                                required
+                                                :class="{
+                                                    'form-check-input': true,
+                                                    'is-invalid': validator.errors.length > 0
+                                                }"
+                                                v-model="formData['4'].tncAgreement">
+                                            <label for="tncAgreement" class="form-check-label pr-md-5">
+                                                <!--I hereby acknowledge that I have read the <a class="underline" target="_blank" href="/$partnerURLTitle/resource/MSIG%20Motorcycle%20Insurance%20PDS%20(Rebate).pdf">Product Disclosure Sheet</a> and agree to the <a href="#" class="underline" @click.prevent="showTncModal">Terms and Conditions</a>.-->
+                                                I hereby acknowledge that I have read the <a class="underline" target="_blank" href="$productDisclosurePDFHTML">Product Disclosure Sheet</a> and agree to the <a href="#" class="underline" @click.prevent="showTncModal">Terms and Conditions</a>.
+                                                
+                                            </label>
+                                            <svg class="icon icon-m tick-mark">
+                                                <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                    href="/spa-assets/icons/icons.svg#sprite-tick-mark"></use>
+                                            </svg>
+                                            <div class="invalid-feedback font-italic" v-if="validator.errors.length > 0">
+                                                * Oops, looks like you haven't ticked the box yet. Please do so to proceed
+                                            </div>
+                                        </div>
+                                    </validation-provider>
+
+                                    <div class="pt-4 wizard-navigation d-none d-lg-flex">
+                                        <a @click.prevent="goToPrevStep()" href="#" role="button" class="btn btn-default btn-outline-primary mr-4">Back</a>
+                                        <a @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" href="#" role="button" class="btn btn-default btn-primary">Checkout</a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4">
+                                    <motor-summary-pane 
+                                        :form-data="formData"
+                                        :curr-step-num="currStep.stepNum"
+                                    ></motor-summary-pane>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            
+                            <validation-provider v-slot="validator" rules="mustBeTrue">
+                                <div class="form-check d-lg-none mt-3">
+                                    <input type="checkbox" 
+                                        name="m_tncAgreement" 
+                                        id="m_tncAgreement" 
+                                        :class="{
+                                            'form-check-input': true,
+                                            'is-invalid': validator.errors.length > 0
+                                        }"
+                                        v-model="formData['4'].tncAgreement">
+                                    <label for="m_tncAgreement" class="form-check-label pr-md-5" v-if="commissionRate > 0">
+                                        <!--I hereby acknowledge that I have read the <a class="underline" href="/$partnerURLTitle/resource/MSIG%20Motorcycle%20Insurance%20PDS%20(Rebate).pdf">Product Disclosure Sheet</a> and agree to the <a href="#" class="underline" @click.prevent="showTncModal">Terms and Conditions</a>.-->
+                                        I hereby acknowledge that I have read the <a class="underline" href="$productDisclosurePDFHTML">Product Disclosure Sheet</a> and agree to the <a href="#" class="underline" @click.prevent="showTncModal">Terms and Conditions</a>.
+                                    </label>
+                                    <svg class="icon icon-m tick-mark">
+                                        <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark"
+                                            href="/spa-assets/icons/icons.svg#sprite-tick-mark"></use>
+                                    </svg>
+                                    <div class="invalid-feedback font-italic" v-if="validator.errors.length > 0">
+                                        * Oops, looks like you haven't ticked the box yet. Please do so to proceed
+                                    </div>
+                                </div>
+                            </validation-provider>
+                        </div>
+                        <div class="container pt-4 wizard-navigation d-lg-none flex-md-row-reverse justify-content-md-start">
+                            <a @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" href="#" role="button" class="btn btn-default btn-primary mb-3 mb-md-0 mr-md-0">Checkout</a>
+                            <a @click.prevent="goToPrevStep()" role="button" class="btn btn-default btn-outline-primary mr-md-3">Back</a>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="wizard-section-5" v-if="currStep && currStep.stepNum === '5'">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-lg-8">
+                                    <div class="bg-w pt-5 pb-4 pb-md-5 px-4 mb-3">
+                                        <h2 class="p2 mb-4">Payment</h2>
+
+                                        <p class="bt1 color-black font-weight-bold">Payment Method:</p>
+                                        <div class="vertical-scroller mb-md-3">
+                                            <div class="d-flex">
+                                                <!-- card one -->
+                                                <!-- weijun - FPX hide -->
+                                                <div v-if="isFPXPaymentGateway" class="selection-infobox mb-3 mb-lg-0 mr-3">
+	                                            <!-- weijun - FPX hide end -->
+                                                    <label class="d-block">
+                                                        <input type="radio" 
+                                                            name="choosePayment" 
+                                                            value="fpxPaymentGateway"
+                                                            v-model="formData['5'].paymentMethod" />
+                                                        <div class="box overflow-hidden">
+                                                            <div class="header-match-height">
+                                                                <div class="box--header bg-p2 text-white p-3">
+                                                                    <h3 class="m-0">Online Banking</h3>
+                                                                </div>
+                                                                <div class="mt-4 mb-3">
+                                                                    <svg class="icon icon-4xl">
+                                                                        <use xlink:href="/spa-assets/icons/icons.svg#sprite-fpx"
+                                                                            href="/spa-assets/icons/icons.svg#sprite-fpx">
+                                                                        </use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                            <div class="box--body px-3 pt-0 pb-3">
+                                                                <div class="d-flex justify-content-center py-2">
+                                                                    <div class="custom-rounded-checked">
+                                                                        <svg class="icon icon-m tick-mark my-2">
+                                                                            <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="/spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                                <!-- card two -->
+                                                <div class="selection-infobox mb-3 mb-lg-0 mr-3">
+                                                    <label class="d-block">
+                                                        <input type="radio"
+                                                            name="choosePayment"
+                                                            value="abmbGateway"
+                                                            @change="initializeTooltips"
+                                                            v-model="formData['5'].paymentMethod" />
+                                                        <div class="box overflow-hidden">
+                                                            <div class="header-match-height">
+                                                                <div class="box--header bg-p2 text-white p-3">
+                                                                    <h3 class="m-0">Credit/Debit Card</h3>
+                                                                </div>
+                                                                <div class="mt-4 mb-3">
+                                                                    <svg class="icon icon-4xl">
+                                                                        <use xlink:href="/spa-assets/icons/icons.svg#sprite-credit-card"
+                                                                            href="/spa-assets/icons/icons.svg#sprite-credit-card">
+                                                                        </use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                            <div class="box--body px-3 pt-0 pb-3">
+                                                                <div class="d-flex justify-content-center py-2">
+                                                                    <div class="custom-rounded-checked">
+                                                                        <svg class="icon icon-m tick-mark my-2">
+                                                                            <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="/spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                                <!-- card 3 -->
+                                                <div v-if="isBoostPaymentGateway" class="selection-infobox mb-3 mb-lg-0 mr-3">
+                                                    <label class="d-block">
+                                                        <input type="radio"
+                                                            name="choosePayment"
+                                                            value="ewalletPaymentMethod"
+                                                            v-model="formData['5'].paymentMethod" />
+                                                        <div class="box overflow-hidden">
+                                                            <div class="header-match-height">
+                                                                <div class="box--header bg-p2 text-white p-3">
+                                                                    <h3 class="m-0">E-Wallet</h3>
+                                                                </div>
+                                                                <div class="mt-4 mb-3">
+                                                                    <svg class="icon icon-4xl">
+                                                                        <use xlink:href="/spa-assets/icons/icons.svg#sprite-ewallets"
+                                                                            href="/spa-assets/icons/icons.svg#sprite-ewallets">
+                                                                        </use>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                            <div class="box--body px-3 pt-0 pb-3">
+                                                                <div class="d-flex justify-content-center py-2">
+                                                                    <div class="custom-rounded-checked">
+                                                                        <svg class="icon icon-m tick-mark my-2">
+                                                                            <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark"
+                                                                                href="/spa-assets/icons/icons.svg#sprite-tick-mark">
+                                                                            </use>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- FPX Banking -->
+                                        <div v-show="formData['5'].paymentMethod === 'fpxPaymentGateway' && isFPXPaymentGateway">
+                                            <p class="bt1 mb-2">Bank:</p>
+                                            <validation-provider :rules="formData['5'].paymentMethod === 'fpxPaymentGateway' ? 'required' : ''"
+                                                v-slot="validator">
+                                                <div class="form-group">
+                                                    <select v-model="formData['5'].bankId"
+                                                        :class="{
+                                                            'form-control': true,
+                                                            'is-invalid': validator.errors.length > 0
+                                                        }">
+                                                        <option disabled hidden selected value="">Select a Bank</option>
+                                                        <option v-for="(bank, index) in banks" v-bind:key="index"
+                                                            :value="bank.bankId">
+                                                            {{ bank.bankName }}
+                                                        </option>
+                                                    </select>
+                                                    <small class="error-message text-primary font-italic" v-if="validator.failedRules.required">
+                                                        Please select a valid bank
+                                                    </small>
+                                                </div>
+                                            </validation-provider>
+
+                                            <p><small>Note: You need to have an active internet banking account with any of the FPX performing banks to use FPX.</small></p>
+
+                                            <p class="bt1 mb-2">
+                                                Email Address: <small class="font-italic">(For transaction status)</small>
+                                            </p>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-6">
+                                                    <validation-provider :rules="formData['5'].paymentMethod === 'fpxPaymentGateway' ? 'required|email' : ''"
+                                                        v-slot="validator">
+                                                        <div class="form-group">
+                                                            <input type="email" 
+                                                                :class="{
+                                                                    'form-control': true,
+                                                                    'is-invalid': validator.errors.length > 0
+                                                                }"
+                                                                placeholder="E.g.: you@gmail.com"
+                                                                v-model="formData['5'].fpxEmail">
+                                                            <small class="error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                <span v-if="validator.failedRules.required">* Complete the Email field.</span>
+                                                                <span v-else-if="validator.failedRules.email">Please enter a valid email address</span>
+                                                            </small>
+                                                        </div>
+                                                    </validation-provider>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- card/debit card -->
+                                        <!--<div v-show="formData['5'].paymentMethod === 'abmbGateway' && !isFPXPaymentGateway">-->
+                                        <div v-show="formData['5'].paymentMethod === 'abmbGateway' && isFPXPaymentGateway">
+
+                                            <div class="credit-card-indicator d-flex align-items-center mb-3"
+                                                :class="{
+                                                    'has-card': cardType
+                                                }">
+                                                <svg class="icon icon-3xl mr-2"
+                                                    :class="{
+                                                        'active': cardType === 'VISA'
+                                                    }">
+                                                    <use href="/spa-assets/icons/icons.svg#sprite-visa"></use>
+                                                </svg>
+                                                <svg class="icon icon-xxl"
+                                                    :class="{
+                                                        'active': cardType === 'MASTER'
+                                                    }">
+                                                    <use href="/spa-assets/icons/icons.svg#sprite-mastercard"></use>
+                                                </svg>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 col-md-7">
+                                                    <validation-provider 
+                                                        :rules="formData['5'].paymentMethod === 'abmbGateway' ? 'required' : ''" 
+                                                        v-slot="validator">
+                                                        <div class="form-group">
+                                                            <label class="bt1">Card Number:</label>
+                                                            <input type="text"
+                                                                placeholder="xxxx xxxx xxxx xxxx"
+                                                                v-mask="'#### #### #### ####'"
+                                                                name="cardnumber"
+                                                                v-model="formData['5'].ccNo"
+                                                                :class="{
+                                                                    'form-control': true,
+                                                                    'is-invalid': validator.errors.length > 0
+                                                                }"
+                                                                autocomplete="cc-number">
+                                                            <div class="small error-message text-primary font-italic">
+                                                                <span v-if="validator.failedRules.required">* Complete the Card Number field.</span>
+                                                                <span v-else-if="validator.failedRules.isCreditCardValid">* Please enter a valid Visa / MasterCard No</span>
+                                                            </div>
+                                                        </div>
+                                                    </validation-provider>
+                                                </div>
+                                                <div class="col-12 col-md-7">
+                                                    <validation-provider :rules="formData['5'].paymentMethod === 'abmbGateway' ? 'required' : ''" v-slot="validator">
+                                                        <div class="form-group">
+                                                            <label class="bt1">Name on Card:</label>
+                                                            <input type="text"
+                                                                placeholder="Name on Card"
+                                                                v-model="formData['5'].cardHolderName"
+                                                                name="ccname"
+                                                                autocomplete="cc-name"
+                                                                :class="{
+                                                                    'form-control': true,
+                                                                    'is-invalid': validator.errors.length > 0
+                                                                }">
+                                                            <small v-if="validator.failedRules.required" class="error-message text-primary font-italic">
+                                                                <span>* Complete the Name field.</span>
+                                                            </small>
+                                                        </div>
+                                                    </validation-provider>
+                                                </div>
+
+                                                <div class="col-12 col-md-10">
+                                                    <div class="form-row">
+                                                        <validation-provider :rules="formData['5'].paymentMethod === 'abmbGateway' ? 'required|isCreditCardExpiryValid' : ''" v-slot="validator" slim>
+                                                            <div class="col-3 form-group">
+                                                                <label class="bt1">Expiration Date:</label>
+                                                                <input type="text" 
+                                                                    placeholder="MM/YY"
+                                                                    name="expirationDate"
+                                                                    name="cc-exp"
+                                                                    autocomplete="cc-exp"
+                                                                    v-mask="'##/##'"
+                                                                    v-model="formData['5'].expiry"
+                                                                    :class="{
+                                                                        'form-control': true,
+                                                                        'is-invalid': validator.errors.length > 0
+                                                                    }">
+                                                                <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                    <span v-if="validator.failedRules.required">* Complete the Expiry (MM/YY) field.</span>
+                                                                    <span v-if="validator.failedRules.isCreditCardExpiryValid">* Please enter a valid Expiry date (MM/YY).</span>
+                                                                </div>
+                                                            </div>
+                                                        </validation-provider>
+                                                        <validation-provider
+                                                            :rules="formData['5'].paymentMethod === 'abmbGateway' ? 'required|integer|length:3' : ''"
+                                                            v-slot="validator" slim>
+                                                            <div class="form-group col-1">
+                                                                <label class="bt1">CVV
+                                                                    <span class="d-inline-flex">
+                                                                        <div class="ml-2 btn-tooltip" data-toggle="tooltip"
+                                                                            data-placement="right"
+                                                                            title="The last 3 digits behind your credit card">
+                                                                            ?
+                                                                        </div>
+                                                                    </span>
+                                                                </label>
+                                                                <input type="text"
+                                                                    placeholder="xxx"
+                                                                    maxlength="3"
+                                                                    name="cvc"
+                                                                    style="width:110px;"
+                                                                    autocomplete="cc-csc"
+                                                                    v-model="formData['5'].cvv"
+                                                                    :class="{
+                                                                        'form-control': true,
+                                                                        'is-invalid': validator.errors.length > 0
+                                                                    }">
+                                                                <div class="small error-message text-primary font-italic" v-if="validator.errors.length > 0">
+                                                                    <span v-if="validator.failedRules.required">* Complete the CVV field.</span>
+                                                                    <span v-else-if="validator.failedRules.length || validator.failedRules.integer">* Please enter a valid CVV</span>
+                                                                </div>
+                                                            </div>
+                                                        </validation-provider>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- E-Wallet -->
+                                        <div v-show="formData['5'].paymentMethod === 'ewalletPaymentMethod' && isBoostPaymentGateway">
+                                            <p class="bt1">Select Your Preferred E-Wallet:</p>
+                                            <validation-provider
+                                                :rules="formData['5'].paymentMethod === 'ewalletPaymentMethod' ? 'required' : ''"
+                                                v-slot="validator"
+                                                slim>
+                                                <div>
+                                                    <div class="list variant-bank">
+                                                        <div class="list-item">
+                                                            <input 
+                                                                type="radio"
+                                                                name="ewalletVendor" 
+                                                                id="radEWallet1"
+                                                                value="boostPaymentGateway"
+                                                                v-model="formData['5'].ewalletVendor"
+                                                                :class="validator.errors.length > 0 ? 'is-invalid' : ''">
+                                                            <label for="radEWallet1" style="border-radius:10px;border: .2px solid #000000;">
+                                                            <div class="wallet-rounded-checked">
+                                                                    <svg class="icon icon-s tick-mark">
+                                                                        <use xlink:href="/spa-assets/icons/icons.svg#sprite-tick-mark" href="/spa-assets/icons/icons.svg#sprite-tick-mark"></use>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="bank-logo">
+                                                                    <img src="spa-assets/img/boost.png" alt="Boost logo">
+                                                                </div>
+                                                                
+                                                                <div class="bank-name">
+                                                                    Boost
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="error-message small text-primary" v-if="validator.failedRules.required">
+                                                        * Please select an e-Wallet Provider
+                                                    </div>
+                                                </div>
+                                            </validation-provider>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-none d-md-block" v-if="formData['5'].paymentMethod === 'fpxPaymentGateway' && isFPXPaymentGateway">
+                                        <p class="bt2">By clicking <strong>"Pay Now"</strong> button, you agree to FPX's
+                                            <a href="https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp" target="_blank" class="underline">Terms & Conditions</a>.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="wizard-navigation d-none d-md-flex pt-4">
+                                        <a @click.prevent="goToPrevStep()" href="#" role="button" class="btn btn-default btn-outline-primary mr-4">Back</a>
+                                        <button @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" role="button" class="btn btn-default btn-primary">Pay Now</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-4">
+                                    <motor-summary-pane 
+                                        :form-data="formData"
+                                        :curr-step-num="currStep.stepNum"
+                                    ></motor-summary-pane>
+                                </div>
+
+                                <div class="container pt-4 wizard-navigation d-md-none">
+                                    <a @click.prevent="goToPrevStep()" href="#" role="button" class="btn btn-default btn-outline-primary mb-3">Back</a>
+                                    <button @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() })" role="button" class="btn btn-default btn-primary">Pay Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>                  
+
+
+                </form>
+            </validation-observer>
+
+            <div class="page-loader">
+                <div class="spinner-container">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- Error message section -->
+        <div class="error-container py-5 bg-p2d" v-if="!canProceed">
+            <div class="container">
+                <div class="bg-w py-5 px-3 px-md-5">
+                    <div class="text-center">
+                        <img src="~@/spa-assets/img/prescreen-error-icon.png" alt="Error" class="img-responsive mb-3">
+                        <h3>Sorry, we are unable to proceed with your request online.</h3>
+                    </div>
+                    <div class="bt2 text-center" v-html="errorMessage"></div>
+                    <p class="bt2 text-center">For any further enquiries, please email us at <a href="mailto:msig_online@my.msig-asia.com">msig_online@my.msig-asia.com</a>.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Error message section -->
+
+
+        <!-- Form to Submit Data to Summary Page -->
+        <form id="summary-form-placeholder" class="d-none" enctype="application/x-www-form-urlencoded"></form>
+
+        <!-- The error form returned from processPurchase will be placed here -->
+        <div id="error-form-placeholder" class="d-none"></div>
+
+        <form action="/dotCMS/purchase/paynow" id="thePaymentForm" name="paymentForm" method="post" novalidate class="d-none">
+            <input name="partnerCode" type="hidden" v-model="partnerCode">
+            <input name="productCode" type="hidden" v-model="productCode">
+            <input name="productName" type="hidden" v-model="productName">
+            <input name="purchaseId" type="hidden" v-model="formData['4'].purchaseTempId">
+            <input name="formula" type="hidden" v-model="formula">
+            <input name="paymentMethod" type="hidden" v-model="formData['5'].paymentMethod">
+            <input name="ccNo" type="hidden" v-model="formData['5'].ccNo">
+            <input name="cardHolderName" type="hidden" v-model="formData['5'].cardHolderName">
+            <input name="expiry" type="hidden" v-model="formData['5'].expiry">
+            <input name="cvv" type="hidden" v-model="formData['5'].cvv">
+            <input name="wallet" type="hidden" v-model="formData['5'].ewalletVendor">
+            <input name="bankId" type="hidden" v-model="formData['5'].bankId">
+            <input name="fpxEmail" type="hidden" v-model="formData['5'].fpxEmail">
+        </form>
+
+        <div id="session-modal" class="modal fade variant-msig" aria-hidden="true">
+            <div class="modal-dialog partial-screen-modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-t2">
+                        <h6 class="w text-center modal-title">Information</h6>
+                        <button class="modal-header-btn button-icon btn-close" data-dismiss="modal" @click="wishToRestoreSession = false">
+                            <svg class="icon icon-s">
+                                <use xlink:href="/spa-assets/icons/icons.svg#sprite-close-popup" href="/spa-assets/icons/icons.svg#sprite-close-popup"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-container padding-top-3xl padding-bottom-l">
+                        <div class="px-3 py-5 content-container">
+                            <p class="bt1 text-center">Would you like to restore your previous session?</p>
+                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-md-center">
+                                <button class="btn btn-primary mr-3" data-dismiss="modal" @click="wishToRestoreSession = true">Yes</button>
+                                <button class="btn btn-secondary" data-dismiss="modal" @click="wishToRestoreSession = false">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endverbatim %}
+</div>
+
+
+
+<script> 
+
+    {# $(document).ready(function(){       
+
+    var swiper = new Swiper('.swiper-container', {    
+                slidesPerView: 'auto',
+                spaceBetween: 20,
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                });
+                              
+    }); #}
+    
+</script>
+<script type="text/x-template" id="summary-pane-template">
+    {% include "./motorcycle-summary-pane.twig" %}
+</script>
+
+<style lang="scss">
+/* Fake for IE. because it doesn't emit the hit event when using display:none */
+.vbt-autcomplete-list--hidden {
+  animation-name: hide;
+  animation-fill-mode: both;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+}
+
+@keyframes hide {
+  to {
+    visibility: hidden;
+    display: none;
+  }
+}
+</style>
+
+{% embed "./modal.twig" with {
+    modalId: 'information-modal',
+    modalHeaderTitle: 'Information'
+} %}
+    {% block modalContent %}
+        <div class="px-3 py-5 content-container"></div>
+    {% endblock %}
+{% endembed %}

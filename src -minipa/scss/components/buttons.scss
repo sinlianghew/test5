@@ -1,0 +1,141 @@
+.btn.btn-icon {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    min-width: auto;
+
+    .button-icon {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        transition: 0.2s ease;
+    }
+
+    .button-text {
+        transition: 0.2s ease;
+    }
+
+    &:active,
+    &:focus {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+
+    &.btn-primary {
+        background-color: transparent;
+        border: none;
+
+        .button-icon {
+            background-color: $p1;
+        }
+
+        .button-text {
+            color: $p1;
+        }
+
+        &:hover {
+            .button-icon {
+                background-color: darken($color: $p1, $amount: 10%)
+            }
+
+            .button-text {
+                color: darken($color: $p1, $amount: 10%)
+            }
+        }
+    }
+
+    &.btn-secondary {
+        background-color: transparent;
+        border: none;
+
+        .button-icon {
+            background-color: $p2;
+        }
+
+        .button-text {
+            color: $p2;
+        }
+
+        &:hover {
+            .button-icon {
+                background-color: darken($color: $p2, $amount: 10%)
+            }
+
+            .button-text {
+                color: darken($color: $p2, $amount: 10%)
+            }
+        }
+    }
+
+
+}
+
+
+
+.tab-button {
+    position: relative;
+
+    .bottom-line {
+        width: 100%;
+        position: absolute;
+        bottom: 2px;
+        left: 0px;
+        height: 2px;
+        background: $color-blue-4;
+        border-radius: 30px;
+    }
+
+
+    .title {
+        font-size: 18px;
+        color: $color-blue-4;
+        font-weight: font-weight-bold;
+
+        @include media-breakpoint-up(md) {
+            font-size: 32px;
+        }
+    }
+
+    .icon {
+        stroke: transparent;
+        fill: $color-blue-4;
+    }
+
+    &.active {
+        .bottom-line {
+            bottom: 0px;
+            height: 5px;
+            background: $color-red;
+        }
+
+        .title {
+            font-weight: $font-weight-bold;
+            color: $color-primary-blue;
+        }
+
+        .icon {
+            stroke: transparent;
+            fill: $color-primary-blue;
+        }
+    }
+
+}
+
+
+.btn-tooltip {
+    cursor: pointer;
+    padding-top:2px;
+    height: 20px;
+    width: 20px;
+    background: $color-blue-3;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    font-weight: $font-weight-bold;
+}

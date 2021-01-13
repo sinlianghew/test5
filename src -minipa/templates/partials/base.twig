@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MSIG</title> 
+     
+     {# <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">    #}
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body >
+    <header class="travel-insurance-new mini-pa">
+        {% include "../components/navigation.twig" %}
+    </header>
+    <main class="travel-insurance-new mini-pa" id="main-content">
+        {% block main %}{% endblock %}
+    </main>
+    <footer class="travel-insurance-new mini-pa">
+        {% include "../components/footer.twig" %}
+    </footer>
+    {% block extras %}{% endblock %}
+    
+    
+</body>
+
+</html> 

@@ -1,0 +1,332 @@
+//add on title font size
+
+.title-header-1 {
+    font-size: 20px;
+    font-weight: $font-weight-bold;
+
+    @include media-breakpoint-up(md) {
+        font-size: 32px;
+    }
+}
+
+
+.title-header-2 {
+    font-size: 32px;
+    font-weight: $font-weight-bold;
+
+    @include media-breakpoint-up(md) {
+        font-size: 44px;
+    }
+}
+
+
+//font-title
+.ft-1 {
+    font-size: 32px;
+}
+
+
+//body text font
+.bt1 {
+    font-weight: 700;
+    font-size: 18px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 18px;
+
+    }
+
+}
+
+.bt2 {
+    font-weight: 400;
+    font-size: 16px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 18px;
+    }
+
+}
+
+
+.bt3 {
+    font-style: italic;
+    font-size: 12px;
+}
+
+.bt4 {
+    font-size: 18px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 20px;
+    }
+}
+
+.bt5 {
+    font-size: 16px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 20px;
+    }
+
+}
+
+.bt6 {
+    font-size: 18px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 24px;
+    }
+
+}
+
+.bt7 {
+    font-size: 12px;
+
+    @include media-breakpoint-up(md) {
+        font-size: 18px;
+    }
+
+}
+
+
+
+
+
+//btn sizes
+
+.btn {
+    min-width: 158px;
+}
+
+
+.btn-l {
+    min-width: 220px;
+}
+
+
+ol.roman {
+    list-style-type: lower-roman;
+}
+
+
+
+/**NEW class FORMAT **/
+
+.bg-white {
+    background-color: #fff !important;
+}
+
+.bg-black {
+    background-color: #000 !important;
+}
+
+.bg-lightGrey {
+    background-color: $color-light-grey !important;
+}
+
+.bg-grey {
+    background-color: $color-grey !important;
+}
+
+.bg-darkGrey {
+    background-color: $color-dark-grey !important;
+}
+
+.bg-pink {
+    background-color: $color-primary-pink !important;
+}
+
+.bg-light-pink {
+    background-color: $color-light-pink !important;
+}
+
+.bg-blue {
+    background-color: $color-primary-blue !important;
+}
+
+.bg-blue-2 {
+    background-color: $color-blue-2 !important;
+}
+
+.bg-blue-3 {
+    background-color: $color-blue-3 !important;
+}
+
+.bg-blue-4 {
+    background-color: $color-blue-4 !important;
+}
+
+.bg-orange {
+    background-color: $color-orange !important;
+}
+
+.bg-purple {
+    background-color: $color-purple !important;
+}
+
+.bg-red {
+    background-color: $color-red !important;
+}
+
+.bg-green {
+    background-color: $color-green !important;
+}
+
+.bg-light-blue {
+    background-color: $color-light-blue !important;
+}
+
+
+
+//font color
+.color-black {
+    color: #000;
+}
+
+.color-white {
+    color: #fff;
+}
+
+.color-primary-pink {
+    color: $color-primary-pink;
+}
+
+
+.color-light-pink {
+    color: $color-light-pink;
+}
+
+.color-primary-blue {
+    color: $color-primary-blue;
+}
+
+.color-blue-2 {
+    color: $color-blue-2;
+}
+
+.color-blue-3 {
+    color: $color-blue-3;
+}
+
+.color-blue-4 {
+    color: $color-blue-4;
+}
+
+.color-orange {
+    color: $color-orange;
+}
+
+.color-purple {
+    color: $color-purple;
+}
+
+.color-red {
+    color: $color-red;
+}
+
+.color-green {
+    color: $color-green;
+}
+
+.color-light-blue {
+    color: $color-light-blue;
+}
+
+
+
+
+
+
+
+
+
+
+
+//old color class
+
+.p1 {
+    color: $p1;
+}
+
+.bg-p1 {
+    background-color: $p1;
+}
+
+.p2 {
+    color: $p2;
+}
+
+.bg-p2 {
+    background-color: $p2;
+}
+
+.p2a {
+    color: $p2a;
+}
+
+.bg-p2a {
+    background-color: $p2a;
+}
+
+.p2b {
+    color: $p2b;
+}
+
+.bg-p2b {
+    background-color: $p2b;
+}
+
+.p2c {
+    color: $p2c;
+}
+
+.bg-p2c {
+    background-color: $p2c;
+}
+
+.p2d {
+    color: $p2d;
+}
+
+.bg-p2d {
+    background-color: $p2d;
+}
+
+.s1 {
+    color: $s1;
+}
+
+.bg-s1 {
+    background-color: $s1;
+}
+
+.s2 {
+    color: $s2;
+}
+
+.bg-s2 {
+    background-color: $s2;
+}
+
+.w {
+    color: #fff;
+}
+
+.bg-w {
+    background-color: #fff;
+}
+
+
+.black {
+    color: #000;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.lh-100 {
+    line-height: 100%;
+}
+//old color class end

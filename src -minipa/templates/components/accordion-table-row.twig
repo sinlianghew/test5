@@ -1,0 +1,68 @@
+ <!-- travel pdp Accordion card one-->
+ <div class="w-100 accordion-content-wrapper {{hideWrapper}}">
+     <!-- Card header -->
+     <div class="title-box collapsed h-line {{hideArrow}}" role="tab" id="headingOne1" data-toggle="collapse"
+         data-parent="#accordionEx" href="#{{accordionNumber}}" aria-expanded="true" aria-controls="content">
+
+         <div class="col-md-6 col-12  title-desc">
+             <div class="row align-items-center">
+                 <div class="col-11 pr-0 ">
+                     <p class="mb-0 color-black ">{{title}} 
+                     </p>
+                 </div>
+                 <div class="col-1 p-0 arrow-dropdown  ">
+                     {% include "icon.twig" with { iconName: 'arrow-black'  } %} 
+                 </div>
+             </div>
+         </div>
+
+         <div class="col-6 d-md-block d-none ">
+             <div class="row">
+                 <div class="col-6 bg-lightGrey title-box justify-content-center borderRight">
+                     <h3>{{planTitle1}}</h3>
+                 </div>
+                 <div class="col-6 bg-p1 w title-box justify-content-center borderLeft">
+                     <h3>{{planTitle2}}</h3>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     {% for item in PlanList %}
+     <!-- Card body  1-->
+     <div id="{{accordionNumber}}" class="collapse w-100 accordion-content {{item.hideRow}} " role="tabpanel"
+         aria-labelledby="headingOne1" data-parent="#accordionEx">
+         <div class="row m-0 h-100">
+             <div class="col-md-6 col-12 title-box title-desc {{hideIfEmpty}}"> 
+                <p class="color-black "> {{item.title}}</p>
+
+             </div>
+             <div class="col-md-6 col-12 p-0  plan-desc  ">
+                 <div class="row m-0 h-100 ">
+                     <div class="col-6 bg-lightGrey text-center justify-content-center   plan-box borderRight">
+                         <div class=" d-md-none title-box justify-content-center   ">
+                            <p class="color-black text-center">PLAN 1</p>
+                         </div>
+                         <p class="p-3 p-md-0 color-black text-center {{planDescStyle}}">
+                             {{item.planOneDesc}}
+                         </p>
+                     </div>
+                     <div class="col-6 bg-p1 w text-center justify-content-center pr-md-3 pl-md-3  plan-box borderLeft">
+                         <div class=" d-md-none title-box justify-content-center   ">
+                            <p class="color-white text-center">PLAN 2</p>
+                         </div>
+                         <p class="p-3 p-md-0 color-white text-center {{planDescStyle}}">
+                             {{item.planTwoDesc}}
+                         </p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     {% endfor %}
+
+
+
+ </div>
+ <!-- Accordion card one end-->

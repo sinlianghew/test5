@@ -1,0 +1,25 @@
+.form-group {
+    input.form-control {
+        &[type=tel],
+        &[type=search],
+        &[type=text] {
+            &::placeholder {
+                font-style: italic;
+            }
+        }
+    }
+
+    &.variant-icon {
+        position: relative;
+        .icon {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+    }
+}

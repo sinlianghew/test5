@@ -1,0 +1,53 @@
+.form-group {
+    min-width: 100%;
+
+    @include media-breakpoint-up(lg) {
+        // min-width: 320px;
+        min-width: 275px;
+    }
+
+    .form-control {
+        border-radius: 0;
+        border-color: $p2;
+        color: #000;
+        //min-width: 200px;
+
+
+        &[disabled] {
+            border: none;
+            background-color: $p2c;
+        }
+
+        @include media-breakpoint-up(md) {
+            //min-width: 315px;
+        }
+
+        &.error-input {
+            color: $color-red;
+            border-color: $color-red;
+        }
+
+        &.is-invalid~.invalid-feedback {
+            display: block;
+        }
+    }
+
+    select.form-control[disabled] {
+        background-image: none;
+    }
+
+    select.form-control.no-value {
+        color: #525252;
+        font-style: italic;
+    }
+
+    input.italic-placeholder::placeholder {
+        font-style: italic;
+    }
+}
+
+.form-row {
+    .form-group .form-control {
+        min-width: auto;
+    }
+}

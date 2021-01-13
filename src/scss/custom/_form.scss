@@ -1,0 +1,27 @@
+select.form-control {
+    border-radius: 0;
+    border-color: $p2;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent url('../../src/spa-assets/img/expand-icon.png') right 10px center no-repeat;
+    padding-right: 40px;
+    @include media-breakpoint-up(lg) {
+        max-width: 325px;
+    }
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+input[type="radio"]+label,
+input[type="checkbox"]+label {
+    background: none;
+}
+
+header {
+    margin: auto;
+}

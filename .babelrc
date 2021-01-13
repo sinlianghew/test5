@@ -1,0 +1,20 @@
+{
+	"presets": [
+		["@babel/preset-env", {
+            "debug": true,
+            "useBuiltIns": "usage",
+            "corejs": 3,
+            "forceAllTransforms": true,
+            "targets": {
+                "browsers": [
+                  "ie >= 11",
+                  "not dead"
+                ]
+            }
+		}]
+    ],
+    "plugins": [
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-transform-template-literals"
+    ]
+}
