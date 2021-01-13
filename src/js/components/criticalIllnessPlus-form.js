@@ -221,6 +221,8 @@ const m3paform = new Vue({
             this.prescreenYesNo2 = false;
             this.prescreenYesNo3 = false;
             this.prescreenYesNo4 = false;
+            console.log("test");
+            console.log("test2");
             console.log("name111: "+value);
             if(name == 2){
                 this.prescreenYesNo2 = value;
