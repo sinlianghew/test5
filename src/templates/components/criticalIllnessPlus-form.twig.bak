@@ -40,7 +40,7 @@
     <input type="hidden" name="partnerName" value="msigonline" />
     <input type="hidden" name="commissionRate" value="15" />
     <input type="hidden" name="discountRate" value="15" />
-    <input type="hidden" name="serviceTaxRate" value="0" />
+    <input type="hidden" name="serviceTaxRate" value="0" /
     <div id="tnc-modal" class="modal fade variant-tnc">
         <div class="modal-dialog partial-screen-modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -65,7 +65,7 @@
     {% verbatim %}
         <div class="bg-w" v-if="canProceed">
             <div class="container py-4 py-md-5">
-                <h1>Critical Illness Plus Insurance</h1>
+                <h1>Mini PA Insurance</h1>
                 <!-- Steppers -->
                 <div class="nav variant-steppers">
                     <div :class="{
@@ -124,37 +124,39 @@
                                     </div>
 
                                 </div>
-								
-								<div class="bt2 mt-4" v-if="prescreenYesNo2">
-                                    <p> BMI = KG/ (H/100 * H/100) </p>
-									<div class="">
-										<p>Your height in cm : <input id="bmiHeight" type="number" v-model.number="bmiHeight"></p>
-										<p>Your Weight in kg : <input id="bmiWeight" type="number" v-model.number="bmiWeight"></p>
-									</div>
-									<p> Your BMI is : {{bmiComputed}}</p>
+                                <div class="bt2 mt-4" v-if="prescreenYesNo">
+                                    prescreenYesNo1
+                                     <a @click="canProceed = false;"
+                                    class="btn btn-default btn-outline-primary order-1 order-md-0"
+                                    v-if="steps[0].showPrescreen">No</a>
+                                <a href="#" 
+                                    role="button"
+                                    class="btn btn-default btn-primary mb-3 mb-md-0"
+                                    v-if="steps[0].showPrescreen"
+                                    @click.prevent="setPrescreenQuestion(2,true)">
+                                    Yes</a>
+                                </div>
 
-                                    <p>Under Weight = Less than 18.6</p>
-                                    <p>Normal Weight = 18.6 and 24.9</p>
-                                    <p>Overweight = Greater than 24.9</p>
-								</div>
+                                <input id="bmiHeight" v-model.number="bmiHeight">
+                                 <input id="bmiWeight" v-model.number="bmiWeight">
+                                 {{bmiComputed}}
 
-                                <div class="bt2 mt-4" v-if="prescreenYesNo3">
-                                    <p> Have you ever suffered from stroke, diabetes, anaemua, hepititis, heart or circulation disorder, kidney disease, 
-                                    tumour or cancerous growth, physical or mentally disability or other disorder? </p>
-								</div>
-                                <div class="bt2 mt-4" v-if="prescreenYesNo4">
-                                    <p>Have any of your parents, brothers or sisters had or died from stroke, diabetes, cancer, inherited disease,
-                                    heeart disease or kidney disease before the age of 60? </p>
-								</div>
-                                <div class="bt2 mt-4" v-if="prescreenYesNo5">
-                                    <p>Has any application for life, injury or illness insurance made by or in respect
-                                    of any insured person been declined or had special terms imposed, or has any insurer refused to renew
-                                    any insurance? </p>
-								</div>
+                                <div class="bt2 mt-4" v-if="prescreenYesNo2">
+                                    prescreenYesNo2
+                                     <a @click="canProceed = false; firstScreenError='firstScreenError';"
+                                    class="btn btn-default btn-outline-primary order-1 order-md-0"
+                                    v-if="steps[0].showPrescreen">No</a>
+                                <a href="#" 
+                                    role="button"
+                                    class="btn btn-default btn-primary mb-3 mb-md-0"
+                                    v-if="steps[0].showPrescreen"
+                                    @click.prevent="setPrescreen()">
+                                    Yes</a>
+                                </div>
 
-                                <p class="bt2 mb-3" v-if="prescreenYesNo6">Please enter the details of Insured Person</p>
+                                <p class="bt2 mb-3" v-if="!steps[0].showPrescreen">Please enter the details of Insured Person</p>
 
-                                <div class="row mt-4 pt-2" v-if="prescreenYesNo6">
+                                <div class="row mt-4 pt-2" v-if="!steps[0].showPrescreen">
                                 
                                     <div class="col-md-6 col-lg-4 col-12">
                                         <div class="d-flex mb-3">
@@ -322,7 +324,7 @@
                                     
                                 </div>
 
-                                <div class="bt2 mt-4 pt-2" v-if="prescreenYesNo6">
+                                <div class="bt2 mt-4 pt-2" v-if="!steps[0].showPrescreen">
                                     <validation-provider v-slot="validator" rules="mustBeTrue">
                                         <div class="form-check">
                                             <input type="checkbox"
@@ -361,76 +363,24 @@
                                 </a>
                             </template>
                             <template v-else>
-                                
-                                <div class="bt2 mt-4" v-if="prescreenYesNo">
-                                     <a @click="canProceed = false;"
+                                <a @click="canProceed = false; firstScreenError='firstScreenError';"
                                     class="btn btn-default btn-outline-primary order-1 order-md-0"
                                     v-if="steps[0].showPrescreen">No</a>
                                 <a href="#" 
                                     role="button"
                                     class="btn btn-default btn-primary mb-3 mb-md-0"
                                     v-if="steps[0].showPrescreen"
-                                    @click.prevent="setPrescreenQuestion(2,true)">
+                                    @click.prevent="setPrescreen(false)">
                                     Yes</a>
-                                </div>
-                                <div class="bt2 mt-4" v-if="prescreenYesNo2">
-                                     <a @click="canProceed = false; firstScreenError='firstScreenError';"
-                                    class="btn btn-default btn-outline-primary order-1 order-md-0"
-                                    v-if="prescreenYesNo2">No</a>
-                                <a href="#" 
-                                    role="button"
-                                    class="btn btn-default btn-primary mb-3 mb-md-0"
-                                    v-if="prescreenYesNo2"
-                                    @click.prevent="setPrescreenQuestion(3,true)">
-                                    Yes</a>
-                                </div>
-                                <div class="bt2 mt-4" v-if="prescreenYesNo3">
-                                     <a @click="canProceed = false; firstScreenError='firstScreenError';"
-                                    class="btn btn-default btn-outline-primary order-1 order-md-0"
-                                    v-if="prescreenYesNo3">No</a>
-                                <a href="#" 
-                                    role="button"
-                                    class="btn btn-default btn-primary mb-3 mb-md-0"
-                                    v-if="prescreenYesNo3"
-                                    @click.prevent="setPrescreenQuestion(4,true)">
-                                    Yes</a>
-                                </div>
-                                <div class="bt2 mt-4" v-if="prescreenYesNo4">
-                                     <a @click="canProceed = false; firstScreenError='firstScreenError';"
-                                    class="btn btn-default btn-outline-primary order-1 order-md-0"
-                                    v-if="prescreenYesNo4">No</a>
-                                <a href="#" 
-                                    role="button"
-                                    class="btn btn-default btn-primary mb-3 mb-md-0"
-                                    v-if="prescreenYesNo4"
-                                    @click.prevent="setPrescreenQuestion(5,true)">
-                                    Yes</a>
-                                </div>
-                                <div class="bt2 mt-4" v-if="prescreenYesNo5">
-                                     <a @click="canProceed = false; firstScreenError='firstScreenError';"
-                                    class="btn btn-default btn-outline-primary order-1 order-md-0"
-                                    v-if="prescreenYesNo5">No</a>
-                                <a href="#" 
-                                    role="button"
-                                    class="btn btn-default btn-primary mb-3 mb-md-0"
-                                    v-if="prescreenYesNo5"
-                                    @click.prevent="setPrescreenQuestion(6,true)">
-                                    Yes</a>
-                                </div>
-
-
-								<div class="bt2 mt-4" v-if="prescreenYesNo6">
                                 <a class="btn btn-default btn-outline-primary order-1 order-md-0" 
-                                    @click.prevent="setPrescreenQuestion(5,true)"
-                                    v-if="prescreenYesNo6">Back</a>
+                                    @click.prevent="setPrescreen(true)"
+                                    v-if="!steps[0].showPrescreen">Back</a>
                                 <a href="#"
                                     @click.prevent="observer.handleSubmit(onSubmit).then(function() { scrollToError() });"
                                     class="btn btn-default btn-primary mb-3 mb-md-0" 
                                     v-if="!steps[0].showPrescreen">
                                     Continue
                                 </a>
-								</div>
-								
                             </template>
                         </div>
                     </fieldset>

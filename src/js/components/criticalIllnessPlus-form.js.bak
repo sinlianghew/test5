@@ -100,8 +100,6 @@ const m3paform = new Vue({
         prescreenYesNo2:false,
         prescreenYesNo3:false,
         prescreenYesNo4:false,
-        prescreenYesNo5:false,
-        prescreenYesNo6:false,
         bmiHeight:'',
         bmiWeight:'',
         bmi:'',
@@ -227,21 +225,7 @@ const m3paform = new Vue({
 	        console.log("edit in git")
             console.log("name111: "+value);
             if(name == 2){
-                this.steps[0].showPrescreen = false;
                 this.prescreenYesNo2 = value;
-            }
-            else if(name == 3){
-                this.prescreenYesNo3 = value;
-            }
-            else if(name == 4){
-                this.prescreenYesNo4 = value;
-            }
-            else if(name == 5){
-                this.prescreenYesNo5 = value;
-                this.prescreenYesNo6 = false; 
-            }
-            else if(name == 6){
-                this.prescreenYesNo6 = value;
             }
         },
         /* jw - mini PA */
@@ -1214,12 +1198,7 @@ const m3paform = new Vue({
         bmiComputed:function(){
             var numheight =this.bmiHeight;
             var numweight =this.bmiWeight;
-            var bmiCalculated = parseFloat(numweight)/((parseFloat(numheight)/100)*(parseFloat(numheight)/100));
-            if(isNaN(bmiCalculated)){
-                return '-';
-            }else{
-                return bmiCalculated.toFixed(2);
-            }
+            return parseFloat(numheight) + parseFloat(numweight);
         },
         displayDateFormat: function(){
             return moment(this.formData['3'].policyHolderDateOfBirth).format('DD/MM/YYYY')
