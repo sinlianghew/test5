@@ -226,6 +226,7 @@ const m3paform = new Vue({
             console.log("hello jia wey");
 	        console.log("edit in git")
             console.log("name111: "+value);
+		console.log("test edit");
             if(name == 2){
                 this.steps[0].showPrescreen = false;
                 this.prescreenYesNo2 = value;
